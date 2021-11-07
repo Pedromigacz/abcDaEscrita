@@ -5,6 +5,10 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.0.5",
+    "@mui/material": "^5.0.6",
     "gatsby": "^4.1.0",
     "gatsby-plugin-gatsby-cloud": "^4.1.0",
     "gatsby-plugin-image": "^2.1.0",

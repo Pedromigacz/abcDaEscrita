@@ -34,6 +34,8 @@ firebase.initializeApp({
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 
+const theme = createTheme()
+
 function Copyright(props) {
   return (
     <Typography
@@ -52,8 +54,6 @@ function Copyright(props) {
   )
 }
 
-const theme = createTheme()
-
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)
 
@@ -69,8 +69,8 @@ const LoginForm = () => {
         setLoading(false)
       })
       .catch(err => {
+        console.log(err.code)
         setLoading(false)
-        console.log(err)
       })
   }
 

@@ -12,6 +12,7 @@ import Grid from "@mui/material/Grid"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { useSnackbar } from "notistack"
 
 // Firebase imports
 import firebase from "firebase/compat/app"
@@ -56,6 +57,7 @@ function Copyright(props) {
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleSubmit = event => {
     if (loading) return
@@ -69,7 +71,7 @@ const LoginForm = () => {
         setLoading(false)
       })
       .catch(err => {
-        console.log(err.code)
+        enqueueSnackbar(err.code, { variant: "error" })
         setLoading(false)
       })
   }

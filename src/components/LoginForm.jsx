@@ -22,6 +22,8 @@ import "firebase/compat/auth"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useCollectionData } from "react-firebase-hooks/firestore"
 
+import { authCodeToMessage } from "../components/utils"
+
 firebase.initializeApp({
   apiKey: "AIzaSyA29yoBOYspTnEHo9jzedtBevO6yPI1Q1E",
   authDomain: "projetoteste-7a401.firebaseapp.com",
@@ -71,7 +73,7 @@ const LoginForm = () => {
         setLoading(false)
       })
       .catch(err => {
-        enqueueSnackbar(err.code, { variant: "error" })
+        enqueueSnackbar(authCodeToMessage(err.code), { variant: "error" })
         setLoading(false)
       })
   }

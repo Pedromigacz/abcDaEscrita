@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { navigate } from "gatsby"
+import { Copyright } from "../components"
 
 // Mui imports
 import Avatar from "@mui/material/Avatar"
@@ -34,24 +35,6 @@ firebase.initializeApp({
 const auth = firebase.auth()
 
 const theme = createTheme()
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://abcdaescrita.com.br/">
-        ABC da escrita
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  )
-}
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)

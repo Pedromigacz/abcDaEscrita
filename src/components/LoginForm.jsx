@@ -1,4 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
+
+// Mui imports
 import Avatar from "@mui/material/Avatar"
 import LoadingButton from "@mui/lab/LoadingButton"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -10,6 +12,27 @@ import Grid from "@mui/material/Grid"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+
+// Firebase imports
+import firebase from "firebase/compat/app"
+import "firebase/compat/firestore"
+import "firebase/compat/auth"
+
+import { useAuthState } from "react-firebase-hooks/auth"
+import { useCollectionData } from "react-firebase-hooks/firestore"
+
+firebase.initializeApp({
+  apiKey: "AIzaSyA29yoBOYspTnEHo9jzedtBevO6yPI1Q1E",
+  authDomain: "projetoteste-7a401.firebaseapp.com",
+  projectId: "projetoteste-7a401",
+  storageBucket: "projetoteste-7a401.appspot.com",
+  messagingSenderId: "1062854484452",
+  appId: "1:1062854484452:web:88231160337796232967f1",
+  measurementId: "G-CGB1DYX5JL",
+})
+
+const auth = firebase.auth()
+const firestore = firebase.firestore()
 
 function Copyright(props) {
   return (
@@ -32,14 +55,23 @@ function Copyright(props) {
 const theme = createTheme()
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false)
+
   const handleSubmit = event => {
+    if (loading) return
+    setLoading(true)
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    })
+    auth
+      .signInWithEmailAndPassword(data.get("email"), data.get("password"))
+      .then(() => {
+        setLoading(false)
+      })
+      .catch(err => {
+        setLoading(false)
+        console.log(err)
+      })
   }
 
   return (
@@ -106,7 +138,7 @@ const LoginForm = () => {
               />
               <LoadingButton
                 loadingPosition="start"
-                loading={false}
+                loading={loading}
                 type="submit"
                 fullWidth
                 variant="contained"

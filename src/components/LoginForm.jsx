@@ -48,7 +48,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://abcdaescrita.com.br/">
         ABC da escrita
       </Link>{" "}
       {new Date().getFullYear()}
@@ -69,7 +69,9 @@ const LoginForm = () => {
     // eslint-disable-next-line no-console
     auth
       .signInWithEmailAndPassword(data.get("email"), data.get("password"))
-      .then(() => {
+      .then(obj => {
+        console.log(obj)
+        enqueueSnackbar("Login realizado com sucesso", { variant: "success" })
         setLoading(false)
       })
       .catch(err => {

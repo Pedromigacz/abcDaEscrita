@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { navigate } from "gatsby"
 
 // Mui imports
 import Avatar from "@mui/material/Avatar"
@@ -16,11 +17,7 @@ import { useSnackbar } from "notistack"
 
 // Firebase imports
 import firebase from "firebase/compat/app"
-import "firebase/compat/firestore"
 import "firebase/compat/auth"
-
-import { useAuthState } from "react-firebase-hooks/auth"
-import { useCollectionData } from "react-firebase-hooks/firestore"
 
 import { authCodeToMessage } from "../components/utils"
 
@@ -35,7 +32,6 @@ firebase.initializeApp({
 })
 
 const auth = firebase.auth()
-const firestore = firebase.firestore()
 
 const theme = createTheme()
 
@@ -70,9 +66,11 @@ const LoginForm = () => {
     auth
       .signInWithEmailAndPassword(data.get("email"), data.get("password"))
       .then(obj => {
-        console.log(obj)
         enqueueSnackbar("Login realizado com sucesso", { variant: "success" })
         setLoading(false)
+        if (obj.user && obj.user.email === "tradojo@gmail.com") {
+          navigate("/admin")
+        }
       })
       .catch(err => {
         enqueueSnackbar(authCodeToMessage(err.code), { variant: "error" })
@@ -84,22 +82,6 @@ const LoginForm = () => {
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: t =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -163,6 +145,22 @@ const LoginForm = () => {
             </Box>
           </Box>
         </Grid>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: "url(https://source.unsplash.com/random)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: t =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
       </Grid>
     </ThemeProvider>
   )

@@ -51,7 +51,7 @@ const LoginForm = () => {
       .then(obj => {
         enqueueSnackbar("Login realizado com sucesso", { variant: "success" })
         setLoading(false)
-        if (obj.user && obj.user.email === "tradojo@gmail.com") {
+        if (obj.user && obj.user.email === "admin@admin.com") {
           navigate("/admin")
         }
       })

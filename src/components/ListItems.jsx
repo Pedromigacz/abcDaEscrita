@@ -1,5 +1,6 @@
 import React, { useContext } from "react"
 import { FirebaseContext } from "../contexts/firebaseContext.js"
+import { Link } from "gatsby"
 
 // Material ui imports
 import ListItem from "@mui/material/ListItem"
@@ -35,12 +36,17 @@ export const SecondaryListItems = () => {
   return (
     <div>
       <ListSubheader inset>Autenticação</ListSubheader>
-      <ListItem button>
-        <ListItemIcon>
-          <PersonAddIcon />
-        </ListItemIcon>
-        <ListItemText primary="Adicionar usuário" />
-      </ListItem>
+      <Link
+        to="/admin/addUser"
+        style={{ textDecoration: "none", color: "unset" }}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <PersonAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Adicionar usuário" />
+        </ListItem>
+      </Link>
       <ListItem button>
         <ListItemIcon>
           <PeopleIcon />

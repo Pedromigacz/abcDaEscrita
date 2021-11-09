@@ -1,6 +1,7 @@
-import * as React from "react"
-import { mainListItems, secondaryListItems } from "../components/ListItems.jsx"
+import React, { useState, useContext } from "react"
+import { mainListItems, SecondaryListItems } from "../components/ListItems.jsx"
 import { Copyright } from "../components"
+import { FirebaseContext } from "../contexts/firebaseContext.js"
 
 // materiaul ui imports
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles"
@@ -68,7 +69,7 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme()
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = useState(true)
   const toggleDrawer = () => {
     setOpen(!open)
   }
@@ -122,7 +123,9 @@ function DashboardContent() {
           <Divider />
           <List>{mainListItems}</List>
           <Divider />
-          <List>{secondaryListItems}</List>
+          <List>
+            <SecondaryListItems />
+          </List>
         </Drawer>
         <Box
           component="main"

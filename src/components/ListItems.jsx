@@ -1,4 +1,5 @@
-import * as React from "react"
+import React, { useContext } from "react"
+import { FirebaseContext } from "../contexts/firebaseContext.js"
 
 // Material ui imports
 import ListItem from "@mui/material/ListItem"
@@ -29,26 +30,29 @@ export const mainListItems = (
   </div>
 )
 
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Autenticação</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <PersonAddIcon />
-      </ListItemIcon>
-      <ListItemText primary="Adicionar usuário" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Gerenciar usuários" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LogoutIcon />
-      </ListItemIcon>
-      <ListItemText primary="Sair" />
-    </ListItem>
-  </div>
-)
+export const SecondaryListItems = () => {
+  const { auth, sair } = useContext(FirebaseContext)
+  return (
+    <div>
+      <ListSubheader inset>Autenticação</ListSubheader>
+      <ListItem button>
+        <ListItemIcon>
+          <PersonAddIcon />
+        </ListItemIcon>
+        <ListItemText primary="Adicionar usuário" />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Gerenciar usuários" />
+      </ListItem>
+      <ListItem button onClick={sair}>
+        <ListItemIcon>
+          <LogoutIcon />
+        </ListItemIcon>
+        <ListItemText primary="Sair" />
+      </ListItem>
+    </div>
+  )
+}

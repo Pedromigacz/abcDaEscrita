@@ -25,8 +25,6 @@ export const FirebaseContext = createContext()
 
 const auth = firebase.auth()
 
-console.log(auth)
-
 const FirebaseContextProvider = props => {
   const { enqueueSnackbar } = useSnackbar()
 

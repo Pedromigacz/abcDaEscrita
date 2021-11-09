@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react"
-import { Copyright } from "../components"
-import { FirebaseContext } from "../contexts/firebaseContext.js"
-import { Drawer } from "../components"
+import { Copyright } from "../../components"
+import { FirebaseContext } from "../../contexts/firebaseContext.js"
+import { Drawer } from "../../components"
 
 // materiaul ui imports
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles"

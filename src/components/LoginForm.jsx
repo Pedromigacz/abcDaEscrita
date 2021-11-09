@@ -38,7 +38,7 @@ const theme = createTheme()
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)
-  const { enqueueSnackbar } = useSnackbar()
+  //const { enqueueSnackbar } = useSnackbar()
 
   const handleSubmit = event => {
     if (loading) return
@@ -49,14 +49,14 @@ const LoginForm = () => {
     auth
       .signInWithEmailAndPassword(data.get("email"), data.get("password"))
       .then(obj => {
-        enqueueSnackbar("Login realizado com sucesso", { variant: "success" })
+        //enqueueSnackbar("Login realizado com sucesso", { variant: "success" })
         setLoading(false)
         if (obj.user && obj.user.email === "admin@admin.com") {
           navigate("/admin")
         }
       })
       .catch(err => {
-        enqueueSnackbar(authCodeToMessage(err.code), { variant: "error" })
+        //enqueueSnackbar(authCodeToMessage(err.code), { variant: "error" })
         setLoading(false)
       })
   }

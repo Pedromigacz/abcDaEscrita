@@ -1,6 +1,10 @@
 import * as React from "react"
 import { LoginForm } from "../components"
 
-const Index = () => <>{/* <LoginForm /> */}</>
+const Index = () => (
+  <>
+    <LoginForm />
+  </>
+)
 
 export default Index

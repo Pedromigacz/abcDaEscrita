@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Copyright } from "../../components"
-import { Drawer, AppBar } from "../../components"
+import { Drawer, AppBar, AddUserForm } from "../../components"
 
 // materiaul ui imports
 import { createTheme, ThemeProvider } from "@mui/material/styles"
@@ -39,12 +39,15 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Paper
-                  sx={{ p: 10, display: "flex", flexDirection: "column" }}
-                ></Paper>
-              </Grid>
+            <Grid
+              container
+              spacing={3}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Paper sx={{ p: 2, m: 2, mw: 500 }}>
+                <AddUserForm />
+              </Paper>
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>

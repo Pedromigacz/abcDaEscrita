@@ -1,8 +1,6 @@
 import React, { useState, useContext } from "react"
 import { FirebaseContext } from "../contexts/firebaseContext.js"
-import { navigate } from "gatsby"
 import { Copyright } from "../components"
-import { authCodeToMessage } from "../components/utils"
 
 // Mui imports
 import Avatar from "@mui/material/Avatar"
@@ -16,14 +14,12 @@ import Grid from "@mui/material/Grid"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { useSnackbar } from "notistack"
 
 const theme = createTheme()
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)
-  const { enqueueSnackbar } = useSnackbar()
-  const { auth } = useContext(FirebaseContext)
+  const { entrar } = useContext(FirebaseContext)
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -32,17 +28,11 @@ const LoginForm = () => {
 
     const data = new FormData(event.currentTarget)
 
-    auth
-      .signInWithEmailAndPassword(data.get("email"), data.get("password"))
+    entrar(data.get("email"), data.get("password"))
       .then(obj => {
-        enqueueSnackbar("Login realizado com sucesso", { variant: "success" })
         setLoading(false)
-        if (obj.user && obj.user.email === "admin@admin.com") {
-          navigate("/admin")
-        }
       })
       .catch(err => {
-        enqueueSnackbar(authCodeToMessage(err.code), { variant: "error" })
         setLoading(false)
       })
   }

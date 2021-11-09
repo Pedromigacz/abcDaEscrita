@@ -31,7 +31,7 @@ export const mainListItems = (
 )
 
 export const SecondaryListItems = () => {
-  const { auth, sair } = useContext(FirebaseContext)
+  const { sair } = useContext(FirebaseContext)
   return (
     <div>
       <ListSubheader inset>Autenticação</ListSubheader>

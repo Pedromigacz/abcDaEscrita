@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react"
+import React, { createContext } from "react"
 import { navigate } from "gatsby"
 
 // Firebase config
@@ -9,6 +9,7 @@ import { signOut } from "firebase/auth"
 
 // Notifications
 import { useSnackbar } from "notistack"
+import { authCodeToMessage } from "../components/utils"
 
 firebase.initializeApp({
   apiKey: "AIzaSyA29yoBOYspTnEHo9jzedtBevO6yPI1Q1E",
@@ -41,10 +42,26 @@ const FirebaseContextProvider = props => {
       })
   }
 
+  const entrar = (email, password) => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(obj => {
+        enqueueSnackbar("Login realizado com sucesso", { variant: "success" })
+        if (obj.user && obj.user.email === "admin@admin.com") {
+          navigate("/admin")
+        }
+        return obj
+      })
+      .catch(err => {
+        enqueueSnackbar(authCodeToMessage(err.code), { variant: "error" })
+        return err
+      })
+  }
+
   return (
     <FirebaseContext.Provider
       value={{
-        auth,
+        entrar,
         sair,
       }}
     >

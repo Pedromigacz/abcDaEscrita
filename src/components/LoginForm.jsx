@@ -1,6 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
+import { FirebaseContext } from "../contexts/firebaseContext.js"
 import { navigate } from "gatsby"
 import { Copyright } from "../components"
+import { authCodeToMessage } from "../components/utils"
 
 // Mui imports
 import Avatar from "@mui/material/Avatar"
@@ -16,29 +18,12 @@ import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useSnackbar } from "notistack"
 
-// Firebase imports
-import firebase from "firebase/compat/app"
-import "firebase/compat/auth"
-
-import { authCodeToMessage } from "../components/utils"
-
-firebase.initializeApp({
-  apiKey: "AIzaSyA29yoBOYspTnEHo9jzedtBevO6yPI1Q1E",
-  authDomain: "projetoteste-7a401.firebaseapp.com",
-  projectId: "projetoteste-7a401",
-  storageBucket: "projetoteste-7a401.appspot.com",
-  messagingSenderId: "1062854484452",
-  appId: "1:1062854484452:web:88231160337796232967f1",
-  measurementId: "G-CGB1DYX5JL",
-})
-
-const auth = firebase.auth()
-
 const theme = createTheme()
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
+  const { auth } = useContext(FirebaseContext)
 
   const handleSubmit = event => {
     event.preventDefault()

@@ -4,6 +4,7 @@ import { navigate } from "gatsby"
 // Firebase config
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
+import "firebase/compat/firestore"
 
 import { signOut } from "firebase/auth"
 
@@ -23,6 +24,7 @@ firebase.initializeApp({
 
 export const FirebaseContext = createContext()
 
+const db = firebase.firestore()
 const auth = firebase.auth()
 
 const FirebaseContextProvider = props => {
@@ -56,11 +58,33 @@ const FirebaseContextProvider = props => {
       })
   }
 
+  const registrar = async ({ email, senha, validade, cursos }) => {
+    const userDoc = await db
+      .collection("/users")
+      .add({ email, validade, cursos })
+    console.log(userDoc)
+  }
+
+  const getCourses = () =>
+    db
+      .collection("cursos")
+      .get()
+      .then(snapshot => {
+        return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+      })
+      .catch(err => {
+        enqueueSnackbar("Ops, algo de errado ocorreu" + err.code, {
+          variant: "error",
+        })
+      })
+
   return (
     <FirebaseContext.Provider
       value={{
         entrar,
         sair,
+        getCourses,
+        registrar,
       }}
     >
       {props.children}

@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useState, useEffect, useContext } from "react"
+import { FirebaseContext } from "../contexts/firebaseContext.js"
 
 // mui imports
-import Button from "@mui/material/Button"
+import LoadingButton from "@mui/lab/LoadingButton"
 import CssBaseline from "@mui/material/CssBaseline"
 import TextField from "@mui/material/TextField"
 import FormControlLabel from "@mui/material/FormControlLabel"
@@ -18,6 +19,45 @@ import FormLabel from "@mui/material/FormLabel"
 import FormControl from "@mui/material/FormControl"
 
 const AddUserForm = () => {
+  const [cursos, setCursos] = useState([])
+  const [cursosSlct, setCursosSlct] = useState([])
+  const [date, setDate] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const { getCourses, registrar } = useContext(FirebaseContext)
+
+  useEffect(() => {
+    // TODO fetch firestore for courses
+    getCourses().then(cursos => {
+      setCursos(cursos)
+    })
+  }, [])
+
+  const handleSelectChanges = e => {
+    if (e.target.checked) {
+      setCursosSlct([...cursosSlct, e.target.value])
+    } else {
+      setCursosSlct(cursosSlct.filter(crs => crs !== e.target.value))
+    }
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    if (loading) return
+    setLoading(true)
+
+    const form = new FormData(e.currentTarget)
+
+    await registrar({
+      email: form.get("email"),
+      senha: form.get("password"),
+      validade: date,
+      cursos: cursosSlct,
+    })
+    setLoading(false)
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <LocalizationProvider fullWidth dateAdapter={AdapterDateFns}>
@@ -36,9 +76,7 @@ const AddUserForm = () => {
           <Box
             component="form"
             noValidate
-            onSubmit={() => {
-              console.log("flag")
-            }}
+            onSubmit={handleSubmit}
             sx={{ mt: 5 }}
           >
             <Grid container spacing={2}>
@@ -62,36 +100,17 @@ const AddUserForm = () => {
                   id="password"
                 />
               </Grid>
-              {/* <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
-                name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-              />
-            </Grid> */}
               <Grid item xs={12}>
                 <MobileDatePicker
                   required
                   fullWidth
                   label="Validade da conta"
                   inputFormat="MM/dd/yyyy"
-                  // value={value}
-                  // onChange={handleChange}
-                  renderInput={params => <TextField fullWidth {...params} />}
+                  value={date}
+                  onChange={setDate}
+                  renderInput={params => (
+                    <TextField fullWidth name="validade" {...params} />
+                  )}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -102,27 +121,31 @@ const AddUserForm = () => {
                 >
                   <FormLabel component="legend">Cursos:</FormLabel>
                   <FormGroup>
-                    <FormControlLabel
-                      control={<Checkbox defaultChecked />}
-                      label="Label"
-                    />
-                    <FormControlLabel
-                      disabled
-                      control={<Checkbox />}
-                      label="Disabled"
-                    />
+                    {cursos &&
+                      cursos.map(curso => (
+                        <FormControlLabel
+                          control={<Checkbox />}
+                          label={curso.titulo}
+                          id={curso.id}
+                          key={curso.id}
+                          value={curso.id}
+                          onChange={handleSelectChanges}
+                        />
+                      ))}
                   </FormGroup>
                 </FormControl>
               </Grid>
             </Grid>
-            <Button
+            <LoadingButton
+              loadingPosition="start"
+              loading={loading}
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               Adicionar usuário
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </LocalizationProvider>

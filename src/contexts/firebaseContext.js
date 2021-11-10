@@ -12,7 +12,7 @@ import { signOut } from "firebase/auth"
 import { useSnackbar } from "notistack"
 import { authCodeToMessage } from "../components/utils"
 
-firebase.initializeApp({
+const config = {
   apiKey: "AIzaSyA29yoBOYspTnEHo9jzedtBevO6yPI1Q1E",
   authDomain: "projetoteste-7a401.firebaseapp.com",
   projectId: "projetoteste-7a401",
@@ -20,7 +20,11 @@ firebase.initializeApp({
   messagingSenderId: "1062854484452",
   appId: "1:1062854484452:web:88231160337796232967f1",
   measurementId: "G-CGB1DYX5JL",
-})
+}
+
+firebase.initializeApp(config)
+
+let createUserApp = firebase.initializeApp(config, "createUserApp")
 
 export const FirebaseContext = createContext()
 
@@ -30,19 +34,18 @@ const auth = firebase.auth()
 const FirebaseContextProvider = props => {
   const { enqueueSnackbar } = useSnackbar()
 
-  const sair = () => {
+  const sair = () =>
     signOut(auth)
       .then(() => {
-        enqueueSnackbar("Sucesso", { variant: "success" })
+        enqueueSnackbar("Sessão encerrada com sucesso", { variant: "success" })
         navigate("/")
       })
       .catch(err => {
         enqueueSnackbar("Algo de errado ocorreu", { variant: "error" })
         navigate("/")
       })
-  }
 
-  const entrar = (email, password) => {
+  const entrar = (email, password) =>
     auth
       .signInWithEmailAndPassword(email, password)
       .then(obj => {
@@ -56,13 +59,31 @@ const FirebaseContextProvider = props => {
         enqueueSnackbar(authCodeToMessage(err.code), { variant: "error" })
         return err
       })
-  }
 
   const registrar = async ({ email, senha, validade, cursos }) => {
-    const userDoc = await db
-      .collection("/users")
-      .add({ email, validade, cursos })
-    console.log(userDoc)
+    try {
+      const newUser = await createUserApp
+        .auth()
+        .createUserWithEmailAndPassword(email, senha)
+
+      const newUserDoc = await db.collection("/users").add({
+        email: newUser.user.email,
+        userRef: newUser.user.uid,
+        validade,
+        cursos,
+      })
+
+      const user = await newUserDoc.get()
+
+      enqueueSnackbar(`Usuário "${user.data().email}" criado com sucesso`, {
+        variant: "success",
+      })
+    } catch (err) {
+      enqueueSnackbar(authCodeToMessage(err.code), {
+        variant: "error",
+      })
+    }
+    return
   }
 
   const getCourses = () =>

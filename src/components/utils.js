@@ -5,5 +5,8 @@ export const authCodeToMessage = code => {
   if (code === "auth/invalid-email") {
     return "Email inválido"
   }
-  return "Email/senha invalido"
+  if (code === "auth/email-already-in-use") {
+    return "Este email já está em uso"
+  }
+  return `Código de erro não listado: ${code}`
 }

@@ -101,6 +101,31 @@ const FirebaseContextProvider = props => {
       .get()
       .then(res => res.data())
 
+  const updateUser = async (id, data) =>
+    await db
+      .collection("users")
+      .doc(id)
+      .get()
+      .then(snapshot =>
+        snapshot.ref.update({
+          validade: data.validade,
+          cursos: data.cursos
+            .map(crs => (crs.checked ? crs.data.id : null))
+            .filter(crs => crs !== null),
+        })
+      )
+      .then(res => {
+        enqueueSnackbar(`Usuário atualizado com sucesso`, {
+          variant: "success",
+        })
+        return res
+      })
+      .catch(err => {
+        enqueueSnackbar(authCodeToMessage(err.code), {
+          variant: "error",
+        })
+      })
+
   const getCourses = () =>
     db
       .collection("cursos")
@@ -123,6 +148,7 @@ const FirebaseContextProvider = props => {
         registrar,
         getUsers,
         getUser,
+        updateUser,
       }}
     >
       {props.children}

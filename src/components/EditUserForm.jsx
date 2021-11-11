@@ -22,7 +22,7 @@ const AddUserForm = ({ userId }) => {
   const [form, setForm] = useState({ email: "", cursos: [], validade: "" })
   const [loading, setLoading] = useState(true)
 
-  const { getCourses, getUser } = useContext(FirebaseContext)
+  const { getCourses, getUser, updateUser } = useContext(FirebaseContext)
 
   useEffect(() => {
     // TODO fetch firestore for courses
@@ -58,7 +58,7 @@ const AddUserForm = ({ userId }) => {
 
     if (loading) return
     setLoading(true)
-
+    await updateUser(userId, form)
     setLoading(false)
   }
 
@@ -92,10 +92,8 @@ const AddUserForm = ({ userId }) => {
                   label="Email"
                   name="email"
                   autoComplete="email"
-                  onChange={e => {
-                    setForm({ ...form, email: e.target.value })
-                  }}
                   value={form.email}
+                  disabled
                 />
               </Grid>
               <Grid item xs={12}>

@@ -19,7 +19,7 @@ import FormLabel from "@mui/material/FormLabel"
 import FormControl from "@mui/material/FormControl"
 
 const AddUserForm = ({ userId }) => {
-  const [form, setForm] = useState({ email: "", cursos: [], validade: "" })
+  const [form, setForm] = useState({ email: "", cursos: [], validade: null })
   const [loading, setLoading] = useState(true)
 
   const { getCourses, getUser, updateUser } = useContext(FirebaseContext)

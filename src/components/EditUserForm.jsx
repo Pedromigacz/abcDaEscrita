@@ -29,10 +29,10 @@ const AddUserForm = ({ userId }) => {
     ;(async () => {
       const cursos = await getCourses()
 
-      await setForm({
+      await setForm(form => ({
         ...form,
         cursos: cursos.map(crso => ({ data: crso, checked: false })),
-      })
+      }))
 
       const userData = await getUser(userId)
 
@@ -51,7 +51,7 @@ const AddUserForm = ({ userId }) => {
 
       setLoading(false)
     })()
-  }, [getCourses])
+  }, [getCourses, getUser, userId])
 
   const handleSubmit = async e => {
     e.preventDefault()

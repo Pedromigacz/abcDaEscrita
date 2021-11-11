@@ -86,6 +86,14 @@ const FirebaseContextProvider = props => {
     return
   }
 
+  const getUsers = async () =>
+    db
+      .collection("users")
+      .get()
+      .then(snapshot =>
+        snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+      )
+
   const getCourses = () =>
     db
       .collection("cursos")
@@ -106,6 +114,7 @@ const FirebaseContextProvider = props => {
         sair,
         getCourses,
         registrar,
+        getUsers,
       }}
     >
       {props.children}

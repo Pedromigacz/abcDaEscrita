@@ -31,7 +31,7 @@ const AddUserForm = () => {
     getCourses().then(cursos => {
       setCursos(cursos)
     })
-  }, [])
+  }, [getCourses])
 
   const handleSelectChanges = e => {
     if (e.target.checked) {

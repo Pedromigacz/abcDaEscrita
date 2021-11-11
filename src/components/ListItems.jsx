@@ -47,12 +47,17 @@ export const SecondaryListItems = () => {
           <ListItemText primary="Adicionar usuário" />
         </ListItem>
       </Link>
-      <ListItem button>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Gerenciar usuários" />
-      </ListItem>
+      <Link
+        to="/admin/getUsers"
+        style={{ textDecoration: "none", color: "unset" }}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Gerenciar usuários" />
+        </ListItem>
+      </Link>
       <ListItem button onClick={sair}>
         <ListItemIcon>
           <LogoutIcon />

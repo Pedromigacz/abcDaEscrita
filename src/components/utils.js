@@ -1,6 +1,6 @@
 export const authCodeToMessage = code => {
   if (code === "auth/wrong-password") {
-    return "Senha incorreta"
+    return "Credenciais incorretas"
   }
   if (code === "auth/invalid-email") {
     return "Email inválido"

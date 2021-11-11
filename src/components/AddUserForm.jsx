@@ -21,8 +21,8 @@ import FormControl from "@mui/material/FormControl"
 const AddUserForm = () => {
   const [cursos, setCursos] = useState([])
   const [cursosSlct, setCursosSlct] = useState([])
-  const [date, setDate] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [date, setDate] = useState(new Date())
+  const [loading, setLoading] = useState(true)
 
   const { getCourses, registrar } = useContext(FirebaseContext)
 
@@ -30,6 +30,7 @@ const AddUserForm = () => {
     // TODO fetch firestore for courses
     getCourses().then(cursos => {
       setCursos(cursos)
+      setLoading(false)
     })
   }, [getCourses])
 

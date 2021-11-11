@@ -75,7 +75,7 @@ const AddUserForm = ({ userId }) => {
           }}
         >
           <Typography component="h1" variant="h5">
-            Adicionar novo usuário
+            Editar usuário
           </Typography>
           <Box
             component="form"
@@ -144,7 +144,7 @@ const AddUserForm = ({ userId }) => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Adicionar usuário
+              Salvar
             </LoadingButton>
           </Box>
         </Box>

@@ -16,12 +16,17 @@ import ManageSearchIcon from "@mui/icons-material/ManageSearch"
 export const mainListItems = (
   <div>
     <ListSubheader inset>Conteúdo</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <CreateNewFolderIcon />
-      </ListItemIcon>
-      <ListItemText primary="Criar curso" />
-    </ListItem>
+    <Link
+      to="/admin/createCourse"
+      style={{ textDecoration: "none", color: "unset" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <CreateNewFolderIcon />
+        </ListItemIcon>
+        <ListItemText primary="Criar curso" />
+      </ListItem>
+    </Link>
     <ListItem button>
       <ListItemIcon>
         <ManageSearchIcon />

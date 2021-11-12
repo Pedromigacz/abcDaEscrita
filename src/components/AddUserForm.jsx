@@ -123,16 +123,20 @@ const AddUserForm = () => {
                   <FormLabel component="legend">Cursos:</FormLabel>
                   <FormGroup>
                     {cursos &&
-                      cursos.map(curso => (
-                        <FormControlLabel
-                          control={<Checkbox />}
-                          label={curso.titulo}
-                          id={curso.id}
-                          key={curso.id}
-                          value={curso.id}
-                          onChange={handleSelectChanges}
-                        />
-                      ))}
+                      cursos.map(
+                        curso =>
+                          curso.titulo &&
+                          curso.id && (
+                            <FormControlLabel
+                              control={<Checkbox />}
+                              label={curso.titulo}
+                              id={curso.id}
+                              key={curso.id}
+                              value={curso.id}
+                              onChange={handleSelectChanges}
+                            />
+                          )
+                      )}
                   </FormGroup>
                 </FormControl>
               </Grid>

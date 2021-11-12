@@ -171,6 +171,28 @@ const FirebaseContextProvider = props => {
         })
       )
 
+  const addCourse = title => {
+    if (!title || title.length >= 0) {
+      return enqueueSnackbar("Curso não pode ser criado sem um título", {
+        variant: "error",
+      })
+    }
+    return db
+      .collection("/cursos")
+      .add({ title: title })
+      .then(res => {
+        enqueueSnackbar(`Curso criado com sucesso`, {
+          variant: "success",
+        })
+        return res
+      })
+      .catch(err =>
+        enqueueSnackbar(authCodeToMessage(err.code), {
+          variant: "error",
+        })
+      )
+  }
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -183,6 +205,7 @@ const FirebaseContextProvider = props => {
         updateUser,
         deleteUser,
         resetPassword,
+        addCourse,
       }}
     >
       {props.children}

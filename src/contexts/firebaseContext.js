@@ -156,6 +156,21 @@ const FirebaseContextProvider = props => {
         })
       })
 
+  const resetPassword = email =>
+    auth
+      .sendPasswordResetEmail(email)
+      .then(res => {
+        enqueueSnackbar(`Email de redefinição de senha enviado com sucesso`, {
+          variant: "success",
+        })
+        return res
+      })
+      .catch(err =>
+        enqueueSnackbar(authCodeToMessage(err.code), {
+          variant: "error",
+        })
+      )
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -167,6 +182,7 @@ const FirebaseContextProvider = props => {
         getUser,
         updateUser,
         deleteUser,
+        resetPassword,
       }}
     >
       {props.children}

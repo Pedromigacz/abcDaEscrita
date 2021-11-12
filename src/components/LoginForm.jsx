@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import { FirebaseContext } from "../contexts/firebaseContext.js"
-import { Copyright } from "../components"
+import { Copyright, ResetPasswordModal } from "../components"
 
 // Mui imports
 import Avatar from "@mui/material/Avatar"
@@ -18,17 +18,22 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 const theme = createTheme()
 
 const LoginForm = () => {
+  const [open, setOpen] = useState(false)
+  const [form, setForm] = useState({ email: "", password: "" })
   const [loading, setLoading] = useState(false)
   const { entrar } = useContext(FirebaseContext)
+
+  const openResetModal = e => {
+    e.preventDefault()
+    setOpen(true)
+  }
 
   const handleSubmit = event => {
     event.preventDefault()
     if (loading) return
     setLoading(true)
 
-    const data = new FormData(event.currentTarget)
-
-    entrar(data.get("email"), data.get("password"))
+    entrar(form.email, form.password)
       .then(obj => {
         setLoading(false)
       })
@@ -71,6 +76,9 @@ const LoginForm = () => {
                 label="Email"
                 name="email"
                 autoComplete="email"
+                onChange={e => {
+                  setForm({ ...form, email: e.target.value })
+                }}
                 autoFocus
               />
               <TextField
@@ -82,6 +90,9 @@ const LoginForm = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={e => {
+                  setForm({ ...form, password: e.target.value })
+                }}
               />
               <LoadingButton
                 loadingPosition="start"
@@ -95,9 +106,19 @@ const LoginForm = () => {
               </LoadingButton>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link
+                    variant="body2"
+                    onClick={openResetModal}
+                    style={{ cursor: "pointer" }}
+                  >
                     Esqueceu sua senha?
                   </Link>
+                  <ResetPasswordModal
+                    open={open}
+                    handleClose={() => {
+                      setOpen(false)
+                    }}
+                  />
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

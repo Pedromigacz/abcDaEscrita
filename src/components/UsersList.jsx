@@ -1,16 +1,19 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useCallback } from "react"
 import { FirebaseContext } from "../contexts/firebaseContext.js"
+import { DeletationModal } from "./"
+import { Link } from "gatsby"
+
+// mui imports
 import { DataGrid } from "@mui/x-data-grid"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
 import Typography from "@mui/material/Typography"
-import { Link } from "gatsby"
 
 const UsersList = () => {
   const { getUsers } = useContext(FirebaseContext)
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
-  const [removeUser, setRemoveUser] = useState("")
+  const [deleteItem, setDeleteItem] = useState(null)
 
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
@@ -67,11 +70,11 @@ const UsersList = () => {
           style={{
             background: "transparent",
             border: "none",
-            color: "#0066cc",
+            color: "#f44336",
             cursor: "pointer",
           }}
           onClick={() => {
-            setRemoveUser("flag")
+            setDeleteItem(params.formattedValue)
           }}
         >
           <DeleteForeverIcon />
@@ -80,7 +83,7 @@ const UsersList = () => {
     },
   ]
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     getUsers().then(users => {
       setRows(
         users.map(user => ({
@@ -88,13 +91,17 @@ const UsersList = () => {
           Email: user.email,
           Validade: new Date(user.validade.seconds).toLocaleString(),
           editar: user.id,
-          remover: user.id,
           Cursos: user.cursos,
+          remover: { id: user.id, email: user.email },
         }))
       )
       setLoading(false)
     })
   }, [getUsers])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
   return (
     <div
@@ -104,6 +111,13 @@ const UsersList = () => {
         width: "670px",
       }}
     >
+      <DeletationModal
+        user={deleteItem}
+        handleClose={() => {
+          setDeleteItem(null)
+        }}
+        fetchData={fetchData}
+      />
       <DataGrid
         rows={rows}
         columns={columns}

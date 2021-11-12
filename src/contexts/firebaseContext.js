@@ -126,6 +126,23 @@ const FirebaseContextProvider = props => {
         })
       })
 
+  const deleteUser = id =>
+    db
+      .collection("users")
+      .doc(id)
+      .delete()
+      .then(res => {
+        enqueueSnackbar(`Usuário removido com sucesso`, {
+          variant: "success",
+        })
+        return res
+      })
+      .catch(err =>
+        enqueueSnackbar(authCodeToMessage(err.code), {
+          variant: "error",
+        })
+      )
+
   const getCourses = () =>
     db
       .collection("cursos")
@@ -149,6 +166,7 @@ const FirebaseContextProvider = props => {
         getUsers,
         getUser,
         updateUser,
+        deleteUser,
       }}
     >
       {props.children}

@@ -197,6 +197,29 @@ const FirebaseContextProvider = props => {
       )
   }
 
+  const updateCourse = (id, newTitle) =>
+    db
+      .collection("cursos")
+      .doc(id)
+      .get()
+      .then(snapshot =>
+        snapshot.ref
+          .update({
+            titulo: newTitle,
+          })
+          .then(res => {
+            enqueueSnackbar(`Curso atualizado com sucesso`, {
+              variant: "success",
+            })
+            return res
+          })
+          .catch(err => {
+            enqueueSnackbar(authCodeToMessage(err.code), {
+              variant: "error",
+            })
+          })
+      )
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -210,6 +233,7 @@ const FirebaseContextProvider = props => {
         deleteUser,
         resetPassword,
         addCourse,
+        updateCourse,
       }}
     >
       {props.children}

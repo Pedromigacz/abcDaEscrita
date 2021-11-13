@@ -7,7 +7,6 @@ import { Link } from "gatsby"
 import { DataGrid } from "@mui/x-data-grid"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
-import Typography from "@mui/material/Typography"
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder"
 
 const CoursesList = () => {
@@ -33,7 +32,9 @@ const CoursesList = () => {
       disableColumnFilter: true,
       renderCell: params => (
         <Link
-          to={`/admin/editCourse/${params.formattedValue}`}
+          to={`/admin/editCourse/${
+            params.formattedValue.id
+          }?title=${encodeURIComponent(params.formattedValue.titulo)}`}
           style={{ cursor: "pointer", color: "#0066cc" }}
         >
           <EditIcon />
@@ -90,7 +91,7 @@ const CoursesList = () => {
         return courses.map(course => ({
           id: course.id,
           Titulo: course.titulo,
-          editar: course.id,
+          editar: course,
           "Adicionar aula": course,
         }))
       })

@@ -147,14 +147,18 @@ const FirebaseContextProvider = props => {
     db
       .collection("cursos")
       .get()
-      .then(snapshot => {
-        return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-      })
-      .catch(err => {
-        enqueueSnackbar("Ops, algo de errado ocorreu" + err.code, {
+      .then(snapshot =>
+        snapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id,
+          originalDoc: doc,
+        }))
+      )
+      .catch(err =>
+        enqueueSnackbar(authCodeToMessage(err.code), {
           variant: "error",
         })
-      })
+      )
 
   const resetPassword = email =>
     auth

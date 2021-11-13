@@ -17,7 +17,7 @@ export const mainListItems = (
   <div>
     <ListSubheader inset>Conteúdo</ListSubheader>
     <Link
-      to="/admin/createCourse"
+      to="/admin/addCourse"
       style={{ textDecoration: "none", color: "unset" }}
     >
       <ListItem button>
@@ -27,12 +27,17 @@ export const mainListItems = (
         <ListItemText primary="Criar curso" />
       </ListItem>
     </Link>
-    <ListItem button>
-      <ListItemIcon>
-        <ManageSearchIcon />
-      </ListItemIcon>
-      <ListItemText primary="Gerenciar cursos" />
-    </ListItem>
+    <Link
+      to="/admin/getCourses"
+      style={{ textDecoration: "none", color: "unset" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <ManageSearchIcon />
+        </ListItemIcon>
+        <ListItemText primary="Gerenciar cursos" />
+      </ListItem>
+    </Link>
   </div>
 )
 

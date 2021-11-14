@@ -5,6 +5,7 @@ import { navigate } from "gatsby"
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
+import "firebase/compat/storage"
 
 import { signOut } from "firebase/auth"
 
@@ -30,6 +31,7 @@ export const FirebaseContext = createContext()
 
 const db = firebase.firestore()
 const auth = firebase.auth()
+const storage = firebase.storage()
 
 const FirebaseContextProvider = props => {
   const { enqueueSnackbar } = useSnackbar()
@@ -197,6 +199,40 @@ const FirebaseContextProvider = props => {
       )
   }
 
+  const addLesson = async (form, file, courseId) => {
+    if (!file) {
+      enqueueSnackbar("É necessário ter uma arquivo para criar uma aula", {
+        variant: "error",
+      })
+      return
+    }
+    try {
+      const storageFile = await storage
+        .ref(`aulas/${file.lastModified || Math.random()}${file.name}`)
+        .put(file)
+
+      const fileUrl = await storageFile.ref.getDownloadURL()
+
+      const newLesson = await db.collection("/aulas").add({
+        titulo: form.titulo,
+        data: form.date,
+        curso: `/cursos/${courseId}`,
+        conteudo: fileUrl,
+      })
+
+      enqueueSnackbar(`Aula criada com sucesso`, {
+        variant: "success",
+      })
+
+      return newLesson
+    } catch (err) {
+      console.log(err)
+      enqueueSnackbar(authCodeToMessage(err.code), {
+        variant: "error",
+      })
+    }
+  }
+
   const updateCourse = (id, newTitle) =>
     db
       .collection("cursos")
@@ -234,6 +270,7 @@ const FirebaseContextProvider = props => {
         resetPassword,
         addCourse,
         updateCourse,
+        addLesson,
       }}
     >
       {props.children}

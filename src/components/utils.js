@@ -11,5 +11,6 @@ export const authCodeToMessage = code => {
   if (code === "auth/user-not-found") {
     return "Usuário não encontrado/registrado"
   }
+  console.log(code)
   return `Código de erro não listado: ${code}`
 }

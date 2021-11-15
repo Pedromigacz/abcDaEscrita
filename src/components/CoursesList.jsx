@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from "react"
 import { FirebaseContext } from "../contexts/firebaseContext.js"
-// import { DeletationModal } from "./"
+import { DeleteCourse } from "./"
 import { Link } from "gatsby"
 
 // mui imports
@@ -59,40 +59,42 @@ const CoursesList = () => {
         </Link>
       ),
     },
-    // {
-    //   field: "remover",
-    //   headerName: "",
-    //   description: "Remove buttons",
-    //   sortable: false,
-    //   width: 35,
-    //   disableColumnFilter: true,
-    //   renderCell: params => (
-    //     <button
-    //       style={{
-    //         background: "transparent",
-    //         border: "none",
-    //         color: "#f44336",
-    //         cursor: "pointer",
-    //       }}
-    //       onClick={() => {
-    //         setDeleteItem(params.formattedValue)
-    //       }}
-    //     >
-    //       <DeleteForeverIcon />
-    //     </button>
-    //   ),
-    // },
+    {
+      field: "remover",
+      headerName: "",
+      description: "Remove buttons",
+      sortable: false,
+      width: 35,
+      disableColumnFilter: true,
+      renderCell: params => (
+        <button
+          style={{
+            background: "transparent",
+            border: "none",
+            color: "#f44336",
+            cursor: "pointer",
+            display: "grid",
+            "place-items": "center",
+          }}
+          onClick={() => {
+            setDeleteItem(params.formattedValue)
+          }}
+        >
+          <DeleteForeverIcon />
+        </button>
+      ),
+    },
   ]
 
   const fetchData = useCallback(() => {
     getCourses().then(courses => {
       setRows(prev => {
-        console.log(courses)
         return courses.map(course => ({
           id: course.id,
           Titulo: course.titulo,
           editar: course,
           "Adicionar aula": course,
+          remover: { titulo: course.titulo, id: course.id },
         }))
       })
       setLoading(false)
@@ -111,13 +113,13 @@ const CoursesList = () => {
         width: "670px",
       }}
     >
-      {/* <DeletationModal
-        user={deleteItem}
+      <DeleteCourse
+        course={deleteItem}
         handleClose={() => {
           setDeleteItem(null)
         }}
         fetchData={fetchData}
-      /> */}
+      />
       <DataGrid
         rows={rows}
         columns={columns}

@@ -256,6 +256,56 @@ const FirebaseContextProvider = props => {
           })
       )
 
+  const deleteCourse = async courseId => {
+    if (!courseId) {
+      enqueueSnackbar("Algo de errado ocorreu", {
+        variant: "error",
+      })
+      return
+    }
+    try {
+      const curso = await db.collection("cursos").doc(courseId).get()
+
+      const aulas = await db
+        .collection("aulas")
+        .where("curso", "==", `/cursos/${curso.id}`)
+        .get()
+
+      const conteudoArray = await Promise.all(
+        aulas.docs.map(async aula => storage.refFromURL(aula.data().conteudo))
+      )
+
+      try {
+        await Promise.all(conteudoArray.map(conteudo => conteudo.delete()))
+        enqueueSnackbar(`Conteúdos deletados com sucesso`, {
+          variant: "success",
+        })
+      } catch (err) {
+        enqueueSnackbar(
+          `Conteúdos não encontrados, pulando para o próximo passo`,
+          {
+            variant: "success",
+          }
+        )
+      }
+
+      await Promise.all(aulas.docs.map(aula => aula.ref.delete()))
+      enqueueSnackbar(`Aulas apagadas com sucesso`, {
+        variant: "success",
+      })
+
+      await curso.ref.delete()
+      enqueueSnackbar(`Curso apagado com sucesso`, {
+        variant: "success",
+      })
+    } catch (err) {
+      console.log(err)
+      enqueueSnackbar(authCodeToMessage(err.code), {
+        variant: "error",
+      })
+    }
+    return
+  }
   return (
     <FirebaseContext.Provider
       value={{
@@ -271,6 +321,7 @@ const FirebaseContextProvider = props => {
         addCourse,
         updateCourse,
         addLesson,
+        deleteCourse,
       }}
     >
       {props.children}

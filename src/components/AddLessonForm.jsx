@@ -97,7 +97,7 @@ const AddLesson = ({ titulo, courseId }) => {
                     onChange={e => setFile(e.target.files[0])}
                   />
                   <Button variant="contained" component="span">
-                    Procurar conteúdo
+                    {file ? file.name : "Procurar conteúdo"}
                   </Button>
                 </label>
               </Grid>

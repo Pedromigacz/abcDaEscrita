@@ -52,7 +52,12 @@ const UsersList = () => {
       renderCell: params => (
         <Link
           to={`/admin/editUser/${params.formattedValue}`}
-          style={{ cursor: "pointer", color: "#0066cc" }}
+          style={{
+            cursor: "pointer",
+            color: "#0066cc",
+            display: "grid",
+            "place-items": "center",
+          }}
         >
           <EditIcon />
         </Link>

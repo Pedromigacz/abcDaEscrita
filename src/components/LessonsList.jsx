@@ -7,7 +7,6 @@ import { Link } from "gatsby"
 import { DataGrid } from "@mui/x-data-grid"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
-import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder"
 
 const LessonsList = () => {
   const { getLessons } = useContext(FirebaseContext)
@@ -53,7 +52,12 @@ const LessonsList = () => {
           to={`/admin/editLesson/${
             params.formattedValue.id
           }?title=${encodeURIComponent(params.formattedValue.titulo)}`}
-          style={{ cursor: "pointer", color: "#0066cc" }}
+          style={{
+            cursor: "pointer",
+            color: "#0066cc",
+            display: "grid",
+            "place-items": "center",
+          }}
         >
           <EditIcon />
         </Link>
@@ -93,7 +97,9 @@ const LessonsList = () => {
           return {
             id: lesson.id,
             titulo: lesson.titulo || "Sem informação",
-            data: lesson.data || "Sem informação",
+            data:
+              (lesson.data && new Date(lesson.data.seconds).toLocaleString()) ||
+              "Sem informação",
             curso: lesson.curso,
             conteudo: lesson.conteudo || "Sem informação",
             editar: lesson,
@@ -114,7 +120,7 @@ const LessonsList = () => {
       style={{
         height: "80vh",
         maxHeight: "700px",
-        width: "1000px",
+        width: "925px",
       }}
     >
       <DeleteLesson

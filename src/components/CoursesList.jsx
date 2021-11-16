@@ -35,7 +35,12 @@ const CoursesList = () => {
           to={`/admin/editCourse/${
             params.formattedValue.id
           }?title=${encodeURIComponent(params.formattedValue.titulo)}`}
-          style={{ cursor: "pointer", color: "#0066cc" }}
+          style={{
+            cursor: "pointer",
+            color: "#0066cc",
+            display: "grid",
+            "place-items": "center",
+          }}
         >
           <EditIcon />
         </Link>
@@ -53,7 +58,12 @@ const CoursesList = () => {
           to={`/admin/addLesson/${
             params.formattedValue.id
           }?title=${encodeURIComponent(params.formattedValue.titulo)}`}
-          style={{ cursor: "pointer", color: "#0066cc" }}
+          style={{
+            cursor: "pointer",
+            color: "#0066cc",
+            display: "grid",
+            "place-items": "center",
+          }}
         >
           <CreateNewFolderIcon />
         </Link>

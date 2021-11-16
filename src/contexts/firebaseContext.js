@@ -227,6 +227,7 @@ const FirebaseContextProvider = props => {
       const storageFile = await storage
         .ref(`aulas/${file.lastModified || Math.random()}${file.name}`)
         .put(file)
+      console.log(storageFile)
 
       const fileUrl = await storageFile.ref.getDownloadURL()
 
@@ -241,6 +242,7 @@ const FirebaseContextProvider = props => {
         variant: "success",
       })
 
+      navigate("/admin/getLessons")
       return newLesson
     } catch (err) {
       console.log(err)

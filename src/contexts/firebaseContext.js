@@ -249,6 +249,28 @@ const FirebaseContextProvider = props => {
       })
     }
   }
+  const updateLesson = async (lessonId, form) => {
+    try {
+      const snapshot = await db.collection("aulas").doc(lessonId).get()
+
+      const newLesson = {}
+      if (form.titulo) newLesson.titulo = form.titulo
+      if (form.date) newLesson.data = form.date
+
+      await snapshot.ref.update(newLesson)
+
+      enqueueSnackbar(`Aula atualizada com sucesso`, {
+        variant: "success",
+      })
+
+      return snapshot
+    } catch (err) {
+      console.log(err)
+      enqueueSnackbar(authCodeToMessage(err.code), {
+        variant: "error",
+      })
+    }
+  }
 
   const updateCourse = (id, newTitle) =>
     db
@@ -350,7 +372,7 @@ const FirebaseContextProvider = props => {
         )
       }
 
-      const res = await aula.ref.delete()
+      await aula.ref.delete()
       enqueueSnackbar(`Aula apagado com sucesso`, {
         variant: "success",
       })
@@ -361,6 +383,18 @@ const FirebaseContextProvider = props => {
       })
     }
   }
+
+  const getLesson = lessonId =>
+    db
+      .collection("aulas")
+      .doc(lessonId)
+      .get()
+      .then(res => ({ ...res.data(), id: res.id }))
+      .catch(err => {
+        enqueueSnackbar(authCodeToMessage(err.code), { variant: "error" })
+        return err
+      })
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -376,9 +410,11 @@ const FirebaseContextProvider = props => {
         addCourse,
         updateCourse,
         addLesson,
+        updateLesson,
         deleteCourse,
         getLessons,
         deleteLesson,
+        getLesson,
       }}
     >
       {props.children}

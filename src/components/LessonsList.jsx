@@ -49,9 +49,7 @@ const LessonsList = () => {
       disableColumnFilter: true,
       renderCell: params => (
         <Link
-          to={`/admin/editLesson/${
-            params.formattedValue.id
-          }?title=${encodeURIComponent(params.formattedValue.titulo)}`}
+          to={`/admin/editLesson/${params.formattedValue.id}`}
           style={{
             cursor: "pointer",
             color: "#0066cc",

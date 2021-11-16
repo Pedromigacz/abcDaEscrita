@@ -218,7 +218,7 @@ const FirebaseContextProvider = props => {
 
   const addLesson = async (form, file, courseId) => {
     if (!file) {
-      enqueueSnackbar("É necessário ter uma arquivo para criar uma aula", {
+      enqueueSnackbar("É necessário ter um arquivo para criar uma aula", {
         variant: "error",
       })
       return

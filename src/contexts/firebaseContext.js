@@ -162,6 +162,23 @@ const FirebaseContextProvider = props => {
         })
       )
 
+  const getLessons = () =>
+    db
+      .collection("aulas")
+      .get()
+      .then(snapshot =>
+        snapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id,
+          originalDoc: doc,
+        }))
+      )
+      .catch(err =>
+        enqueueSnackbar(authCodeToMessage(err.code), {
+          variant: "error",
+        })
+      )
+
   const resetPassword = email =>
     auth
       .sendPasswordResetEmail(email)
@@ -306,6 +323,44 @@ const FirebaseContextProvider = props => {
     }
     return
   }
+  const deleteLesson = async lessonId => {
+    if (!lessonId) {
+      enqueueSnackbar("Algo de errado ocorreu", {
+        variant: "error",
+      })
+      return
+    }
+
+    try {
+      const aula = await db.collection("aulas").doc(lessonId).get()
+
+      try {
+        const contentRef = await storage.refFromURL(aula.data().conteudo)
+        await contentRef.delete()
+
+        enqueueSnackbar(`Conteúdo deletado com sucesso`, {
+          variant: "success",
+        })
+      } catch (err) {
+        enqueueSnackbar(
+          `Conteúdos não encontrados, pulando para o próximo passo`,
+          {
+            variant: "success",
+          }
+        )
+      }
+
+      const res = await aula.ref.delete()
+      enqueueSnackbar(`Aula apagado com sucesso`, {
+        variant: "success",
+      })
+      return
+    } catch (err) {
+      enqueueSnackbar(authCodeToMessage(err.code), {
+        variant: "error",
+      })
+    }
+  }
   return (
     <FirebaseContext.Provider
       value={{
@@ -322,6 +377,8 @@ const FirebaseContextProvider = props => {
         updateCourse,
         addLesson,
         deleteCourse,
+        getLessons,
+        deleteLesson,
       }}
     >
       {props.children}

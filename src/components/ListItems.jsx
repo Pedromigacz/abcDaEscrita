@@ -38,6 +38,17 @@ export const mainListItems = (
         <ListItemText primary="Gerenciar cursos" />
       </ListItem>
     </Link>
+    <Link
+      to="/admin/getLessons"
+      style={{ textDecoration: "none", color: "unset" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <ManageSearchIcon />
+        </ListItemIcon>
+        <ListItemText primary="Gerenciar aulas" />
+      </ListItem>
+    </Link>
   </div>
 )
 

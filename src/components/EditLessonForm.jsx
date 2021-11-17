@@ -9,16 +9,11 @@ import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import LocalizationProvider from "@mui/lab/LocalizationProvider"
-import { styled } from "@mui/material/styles"
 import AdapterDateFns from "@mui/lab/AdapterDateFns"
 import Button from "@mui/material/Button"
 import MobileDatePicker from "@mui/lab/MobileDatePicker"
 import Grid from "@mui/material/Grid"
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
-
-const Input = styled("input")({
-  display: "none",
-})
 
 const EditLesson = ({ lessonId }) => {
   const [form, setForm] = useState({
@@ -103,7 +98,7 @@ const EditLesson = ({ lessonId }) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <a target="_blank" href={form.conteudo}>
+                <a target="_blank" rel="noreferrer" href={form.conteudo}>
                   <Button
                     variant="contained"
                     component="span"

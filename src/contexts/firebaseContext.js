@@ -54,6 +54,8 @@ const FirebaseContextProvider = props => {
         enqueueSnackbar("Login realizado com sucesso", { variant: "success" })
         if (obj.user && obj.user.email === "admin@admin.com") {
           navigate("/admin")
+        } else if (obj.user) {
+          navigate("/alunos")
         }
         return obj
       })

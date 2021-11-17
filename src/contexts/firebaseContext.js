@@ -197,7 +197,9 @@ const FirebaseContextProvider = props => {
       )
 
   const addCourse = title => {
-    if (!title || title.length >= 0) {
+    console.log(!title)
+    console.log(title.length)
+    if (!title || title.length <= 0) {
       return enqueueSnackbar("Curso não pode ser criado sem um título", {
         variant: "error",
       })

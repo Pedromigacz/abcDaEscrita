@@ -125,7 +125,11 @@ const AddUserForm = ({ userId }) => {
                       form.cursos.map(({ data }, key) => (
                         <FormControlLabel
                           control={<Checkbox />}
-                          label={data.titulo}
+                          label={
+                            data && data.titulo
+                              ? data.titulo
+                              : "(Curso sem título)"
+                          }
                           id={data.id}
                           key={data.id}
                           checked={form.cursos[key].checked}

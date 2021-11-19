@@ -204,7 +204,7 @@ const FirebaseContextProvider = props => {
     }
     return db
       .collection("/cursos")
-      .add({ title: title })
+      .add({ titulo: title })
       .then(res => {
         enqueueSnackbar(`Curso criado com sucesso`, {
           variant: "success",

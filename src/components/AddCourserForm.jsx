@@ -12,7 +12,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider"
 import AdapterDateFns from "@mui/lab/AdapterDateFns"
 
 const AddCourseForm = () => {
-  const [title, setTitle] = useState([])
+  const [title, setTitle] = useState("")
   const { addCourse } = useContext(FirebaseContext)
   const [loading, setLoading] = useState(false)
 

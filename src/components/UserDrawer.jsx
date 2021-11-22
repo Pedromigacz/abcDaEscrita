@@ -61,9 +61,6 @@ const UserDrawer = ({ toggleDrawer, open }) => {
         <UserCoursesList />
       </List>
       <Divider />
-      <List>
-        <UserProfileList />
-      </List>
     </DrawerOpts>
   )
 }

@@ -229,7 +229,6 @@ const FirebaseContextProvider = props => {
       const storageFile = await storage
         .ref(`aulas/${file.lastModified || Math.random()}${file.name}`)
         .put(file)
-      console.log(storageFile)
 
       const fileUrl = await storageFile.ref.getDownloadURL()
 
@@ -421,20 +420,17 @@ const FirebaseContextProvider = props => {
 
       const completeCourseList = await Promise.all(
         courseListWithData.map(async course => {
-          let lesson
+          let lessons = []
           const lessonsQuery = await db
             .collection("aulas")
             .where("curso", "==", `/cursos/${course.id}`)
-            .limit(1)
             .get()
 
-          console.log("lessonQuery:")
-          console.log(lessonsQuery)
           await lessonsQuery.forEach(lssn => {
-            lesson = { ...lssn.data() }
+            lessons = [...lessons, lssn.data()]
           })
 
-          return { ...course, lesson }
+          return { ...course, lessons }
         })
       )
       return completeCourseList

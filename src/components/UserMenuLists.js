@@ -10,6 +10,7 @@ import ListSubheader from "@mui/material/ListSubheader"
 import LogoutIcon from "@mui/icons-material/Logout"
 import EmailIcon from "@mui/icons-material/Email"
 import PasswordIcon from "@mui/icons-material/Password"
+import HomeIcon from "@mui/icons-material/Home"
 
 // tree view
 import TreeView from "@mui/lab/TreeView"
@@ -18,40 +19,24 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import TreeItem from "@mui/lab/TreeItem"
 
 export const UserCoursesList = () => {
-  const { courseList } = useContext(FirebaseContext)
-
   return (
-    <div>
-      <ListSubheader inset>Cursos</ListSubheader>
-      <TreeView
-        aria-label="file system navigator"
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-        sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-      >
-        {courseList &&
-          courseList.length &&
-          courseList.map((course, cKey) => (
-            <TreeItem nodeId={cKey} label={course.titulo}>
-              lalala
-            </TreeItem>
-          ))}
-        <TreeItem nodeId="1" label="Curso 1">
-          <TreeItem nodeId="2" label="Aula 1" />
-          <TreeItem nodeId="3" label="Aula 2" />
-          <TreeItem nodeId="4" label="Aula 3" />
-          <TreeItem nodeId="5" label="Aula 4" />
-          <TreeItem nodeId="6" label="Aula 5" />
-        </TreeItem>
-        <TreeItem nodeId="7" label="Curso 2">
-          <TreeItem nodeId="8" label="Aula 1" />
-          <TreeItem nodeId="9" label="Aula 2" />
-          <TreeItem nodeId="10" label="Aula 3" />
-          <TreeItem nodeId="11" label="Aula 4" />
-          <TreeItem nodeId="12" label="Aula 5" />
-        </TreeItem>
-      </TreeView>
-    </div>
+    <>
+      <div>
+        <ListSubheader inset>Menu</ListSubheader>
+        <Link
+          to="/alunos/home"
+          style={{ textDecoration: "none", color: "unset" }}
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </Link>
+      </div>
+      <UserProfileList />
+    </>
   )
 }
 
@@ -59,7 +44,6 @@ export const UserProfileList = () => {
   const { sair } = useContext(FirebaseContext)
   return (
     <div>
-      <ListSubheader inset>Perfil</ListSubheader>
       <Link
         to="/alunos/changePassword"
         style={{ textDecoration: "none", color: "unset" }}

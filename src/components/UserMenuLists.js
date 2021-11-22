@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useEffect, useContext } from "react"
 import { FirebaseContext } from "../contexts/firebaseContext.js"
 import { Link } from "gatsby"
 
@@ -7,52 +7,53 @@ import ListItem from "@mui/material/ListItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
 import ListSubheader from "@mui/material/ListSubheader"
-import PeopleIcon from "@mui/icons-material/People"
 import LogoutIcon from "@mui/icons-material/Logout"
-import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder"
 import ManageSearchIcon from "@mui/icons-material/ManageSearch"
 import EmailIcon from "@mui/icons-material/Email"
 import PasswordIcon from "@mui/icons-material/Password"
 
-export const UserCoursesList = () => (
-  <div>
-    <ListSubheader inset>Cursos</ListSubheader>
-    <Link
-      to="/admin/addCourse"
-      style={{ textDecoration: "none", color: "unset" }}
-    >
-      <ListItem button>
-        <ListItemIcon>
-          <CreateNewFolderIcon />
-        </ListItemIcon>
-        <ListItemText primary="Criar curso" />
-      </ListItem>
-    </Link>
-    <Link
-      to="/admin/getCourses"
-      style={{ textDecoration: "none", color: "unset" }}
-    >
-      <ListItem button>
-        <ListItemIcon>
-          <ManageSearchIcon />
-        </ListItemIcon>
-        <ListItemText primary="Gerenciar cursos" />
-      </ListItem>
-    </Link>
-    <Link
-      to="/admin/getLessons"
-      style={{ textDecoration: "none", color: "unset" }}
-    >
-      <ListItem button>
-        <ListItemIcon>
-          <ManageSearchIcon />
-        </ListItemIcon>
-        <ListItemText primary="Gerenciar aulas" />
-      </ListItem>
-    </Link>
-  </div>
-)
+// tree view
+import TreeView from "@mui/lab/TreeView"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import ChevronRightIcon from "@mui/icons-material/ChevronRight"
+import TreeItem from "@mui/lab/TreeItem"
+
+export const UserCoursesList = () => {
+  const { getUserClasses } = useContext(FirebaseContext)
+
+  useEffect(() => {
+    getUserClasses().then(res => {
+      console.log(res)
+    })
+  })
+  return (
+    <div>
+      <ListSubheader inset>Cursos</ListSubheader>
+      <TreeView
+        aria-label="file system navigator"
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}
+        sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+      >
+        <TreeItem nodeId="1" label="Curso 1">
+          <TreeItem nodeId="2" label="Aula 1" />
+          <TreeItem nodeId="3" label="Aula 2" />
+          <TreeItem nodeId="4" label="Aula 3" />
+          <TreeItem nodeId="5" label="Aula 4" />
+          <TreeItem nodeId="6" label="Aula 5" />
+        </TreeItem>
+        <TreeItem nodeId="7" label="Curso 2">
+          <TreeItem nodeId="8" label="Aula 1" />
+          <TreeItem nodeId="9" label="Aula 2" />
+          <TreeItem nodeId="10" label="Aula 3" />
+          <TreeItem nodeId="11" label="Aula 4" />
+          <TreeItem nodeId="12" label="Aula 5" />
+        </TreeItem>
+      </TreeView>
+    </div>
+  )
+}
 
 export const UserProfileList = () => {
   const { sair } = useContext(FirebaseContext)

@@ -399,6 +399,53 @@ const FirebaseContextProvider = props => {
         return err
       })
 
+  // alunos methods
+  const getUserClasses = async () => {
+    try {
+      const userDataQuery = await db
+        .collection("users")
+        .where("userRef", "==", auth.currentUser.uid)
+        .get()
+
+      let userData
+      userDataQuery.forEach(user => {
+        userData = user
+      })
+
+      const courseListWithData = await Promise.all(
+        userData.data().cursos.map(async courseId => ({
+          ...(await db.collection("cursos").doc(courseId).get()).data(),
+          id: courseId,
+        }))
+      )
+
+      const completeCourseList = await Promise.all(
+        courseListWithData.map(async course => {
+          let lesson
+          const lessonsQuery = await db
+            .collection("aulas")
+            .where("curso", "==", `/cursos/${course.id}`)
+            .limit(1)
+            .get()
+
+          console.log("lessonQuery:")
+          console.log(lessonsQuery)
+          await lessonsQuery.forEach(lssn => {
+            lesson = { ...lssn.data() }
+          })
+
+          return { ...course, lesson }
+        })
+      )
+      return completeCourseList
+    } catch (err) {
+      enqueueSnackbar(
+        "Credenciais expiradas, por favor, saia da sua conta e logue novamente",
+        { variant: "error" }
+      )
+      return err
+    }
+  }
   return (
     <FirebaseContext.Provider
       value={{
@@ -419,6 +466,7 @@ const FirebaseContextProvider = props => {
         getLessons,
         deleteLesson,
         getLesson,
+        getUserClasses,
       }}
     >
       {props.children}

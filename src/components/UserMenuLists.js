@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react"
+import React, { useContext } from "react"
 import { FirebaseContext } from "../contexts/firebaseContext.js"
 import { Link } from "gatsby"
 
@@ -8,8 +8,6 @@ import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
 import ListSubheader from "@mui/material/ListSubheader"
 import LogoutIcon from "@mui/icons-material/Logout"
-import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder"
-import ManageSearchIcon from "@mui/icons-material/ManageSearch"
 import EmailIcon from "@mui/icons-material/Email"
 import PasswordIcon from "@mui/icons-material/Password"
 
@@ -20,13 +18,8 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import TreeItem from "@mui/lab/TreeItem"
 
 export const UserCoursesList = () => {
-  const { getUserClasses } = useContext(FirebaseContext)
+  const { courseList } = useContext(FirebaseContext)
 
-  useEffect(() => {
-    getUserClasses().then(res => {
-      console.log(res)
-    })
-  })
   return (
     <div>
       <ListSubheader inset>Cursos</ListSubheader>
@@ -36,6 +29,13 @@ export const UserCoursesList = () => {
         defaultExpandIcon={<ChevronRightIcon />}
         sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
       >
+        {courseList &&
+          courseList.length &&
+          courseList.map((course, cKey) => (
+            <TreeItem nodeId={cKey} label={course.titulo}>
+              lalala
+            </TreeItem>
+          ))}
         <TreeItem nodeId="1" label="Curso 1">
           <TreeItem nodeId="2" label="Aula 1" />
           <TreeItem nodeId="3" label="Aula 2" />

@@ -1,8 +1,5 @@
 import React from "react"
-import {
-  UserCoursesList,
-  UserProfileList,
-} from "../components/UserMenuLists.js"
+import { UserCoursesList } from "../components/UserMenuLists.js"
 
 // mui imports
 import MuiDrawer from "@mui/material/Drawer"

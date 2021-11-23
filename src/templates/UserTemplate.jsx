@@ -8,7 +8,6 @@ import CssBaseline from "@mui/material/CssBaseline"
 import Box from "@mui/material/Box"
 import Toolbar from "@mui/material/Toolbar"
 import Container from "@mui/material/Container"
-import Paper from "@mui/material/Paper"
 
 const mdTheme = createTheme()
 
@@ -38,9 +37,7 @@ const AdminTemplate = ({ children }) => {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Paper sx={{ p: 10, display: "flex", flexDirection: "column" }}>
-              {children}
-            </Paper>
+            {children}
             <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>

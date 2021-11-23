@@ -427,7 +427,7 @@ const FirebaseContextProvider = props => {
             .get()
 
           await lessonsQuery.forEach(lssn => {
-            lessons = [...lessons, lssn.data()]
+            lessons = [...lessons, { ...lssn.data(), id: lssn.id }]
           })
 
           return { ...course, lessons }

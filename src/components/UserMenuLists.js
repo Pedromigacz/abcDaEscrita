@@ -12,12 +12,6 @@ import EmailIcon from "@mui/icons-material/Email"
 import PasswordIcon from "@mui/icons-material/Password"
 import HomeIcon from "@mui/icons-material/Home"
 
-// tree view
-import TreeView from "@mui/lab/TreeView"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import ChevronRightIcon from "@mui/icons-material/ChevronRight"
-import TreeItem from "@mui/lab/TreeItem"
-
 export const UserCoursesList = () => {
   return (
     <>

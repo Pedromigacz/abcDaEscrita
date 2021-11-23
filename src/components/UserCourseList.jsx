@@ -12,6 +12,16 @@ import VisibilityIcon from "@mui/icons-material/Visibility"
 import Typography from "@mui/material/Typography"
 import { Link } from "gatsby"
 
+function dataAtualFormatada() {
+  var data = new Date(),
+    dia = data.getDate().toString(),
+    diaF = dia.length == 1 ? "0" + dia : dia,
+    mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+    mesF = mes.length == 1 ? "0" + mes : mes,
+    anoF = data.getFullYear()
+  return diaF + "/" + mesF + "/" + anoF
+}
+
 const UserCourseList = () => {
   const [courses, setCourses] = useState([])
   const { getUserClasses } = useContext(FirebaseContext)
@@ -19,14 +29,14 @@ const UserCourseList = () => {
   useEffect(() => {
     getUserClasses().then(setCourses)
   }, [])
-  console.log(courses)
+
   return (
     <div>
       <h1>Cursos:</h1>
       <div>
         {courses && courses.length
           ? courses.map(course => (
-              <span>
+              <span key={course.id}>
                 <List
                   sx={{
                     width: "100%",
@@ -46,7 +56,7 @@ const UserCourseList = () => {
                   </Typography>
                   {course.lessons
                     ? course.lessons.map(lesson => (
-                        <>
+                        <span key={lesson.id}>
                           <ListItem>
                             <Link
                               style={{
@@ -54,7 +64,9 @@ const UserCourseList = () => {
                                 width: "100%",
                                 "text-decoration": "none",
                               }}
-                              to={`/alunos/aulas/${lesson.id}`}
+                              to={`/alunos/aulas/${
+                                lesson.id
+                              }?lesson=${encodeURIComponent(lesson.conteudo)}`}
                             >
                               <ListItemButton
                                 style={{
@@ -68,12 +80,17 @@ const UserCourseList = () => {
                                     <VisibilityIcon />
                                   </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={lesson.titulo} />
+                                <ListItemText
+                                  primary={lesson.titulo}
+                                  secondary={dataAtualFormatada(
+                                    new Date(lesson.data.seconds)
+                                  )}
+                                />
                               </ListItemButton>
                             </Link>
                           </ListItem>
                           <Divider variant="inset" component="li" />
-                        </>
+                        </span>
                       ))
                     : "Parece que este curso ainda não possui nenhuma aula adicionada a ele"}
                 </List>

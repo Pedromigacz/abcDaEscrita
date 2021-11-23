@@ -227,7 +227,7 @@ const FirebaseContextProvider = props => {
     }
     try {
       const storageFile = await storage
-        .ref(`aulas/${file.lastModified || Math.random()}${file.name}`)
+        .ref(`aulas/${Math.random()}${file.name}`)
         .put(file)
 
       const fileUrl = await storageFile.ref.getDownloadURL()

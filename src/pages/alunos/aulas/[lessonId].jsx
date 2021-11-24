@@ -44,6 +44,7 @@ const LessonPage = props => {
           file={{ url: url }}
           onLoadSuccess={onDocumentLoadSuccess}
           loading={CircularIndeterminate}
+          onContextMenu={e => e.preventDefault()}
         >
           <Paper elevation={3} sx={{ mb: 15 }}>
             {Array.from(new Array(numPages), (el, index) => (

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { Document, Page, pdfjs } from "react-pdf"
 import * as styles from "../../../styles/lessonPage.module.css"
 
 // materiau lui loader
@@ -7,8 +6,6 @@ import CircularProgress from "@mui/material/CircularProgress"
 import CssBaseline from "@mui/material/CssBaseline"
 import Box from "@mui/material/Box"
 import Paper from "@mui/material/Paper"
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
 function CircularIndeterminate() {
   return (
@@ -23,7 +20,17 @@ const getLessonContent = props => {
   return params.get("lesson")
 }
 
+let ReactPdf
+async function dynamicImportModule() {
+  ReactPdf = await import("react-pdf")
+  ReactPdf.pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${ReactPdf.pdfjs.version}/pdf.worker.js`
+
+  return
+  // perform remaining tasks with dynamicModule
+}
+
 const LessonPage = props => {
+  const [loading, setLoading] = useState(true)
   const [url, setUrl] = useState("")
   const [numPages, setNumPages] = useState(null)
 
@@ -32,6 +39,10 @@ const LessonPage = props => {
   }
 
   useEffect(() => {
+    dynamicImportModule().then(() => {
+      setLoading(false)
+    })
+
     setUrl(getLessonContent(props))
   }, [setUrl, props])
 
@@ -39,8 +50,10 @@ const LessonPage = props => {
     <div className={styles.container}>
       <CssBaseline />
       <h1>Cabeçalho</h1>
-      <div className="container">
-        <Document
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <ReactPdf.Document
           file={{ url: url }}
           onLoadSuccess={onDocumentLoadSuccess}
           loading={CircularIndeterminate}
@@ -48,15 +61,15 @@ const LessonPage = props => {
         >
           <Paper elevation={3} sx={{ mb: 15 }}>
             {Array.from(new Array(numPages), (el, index) => (
-              <Page
+              <ReactPdf.Page
                 key={`page_${index + 1}`}
                 pageNumber={index + 1}
                 scale={2}
               />
             ))}
           </Paper>
-        </Document>
-      </div>
+        </ReactPdf.Document>
+      )}
     </div>
   )
 }

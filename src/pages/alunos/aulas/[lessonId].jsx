@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import * as styles from "../../../styles/lessonPage.module.css"
+import { LessonHeader } from "../../../components/"
 
 // materiau lui loader
 import CircularProgress from "@mui/material/CircularProgress"
@@ -47,30 +48,32 @@ const LessonPage = props => {
   }, [setUrl, props])
 
   return (
-    <div className={styles.container}>
-      <CssBaseline />
-      <h1>Cabeçalho</h1>
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <ReactPdf.Document
-          file={{ url: url }}
-          onLoadSuccess={onDocumentLoadSuccess}
-          loading={CircularIndeterminate}
-          onContextMenu={e => e.preventDefault()}
-        >
-          <Paper elevation={3} sx={{ mb: 15 }}>
+    <>
+      <LessonHeader />
+      <div className={styles.container}>
+        <CssBaseline />
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <ReactPdf.Document
+            file={{ url: url }}
+            onLoadSuccess={onDocumentLoadSuccess}
+            loading={CircularIndeterminate}
+            onContextMenu={e => e.preventDefault()}
+          >
             {Array.from(new Array(numPages), (el, index) => (
-              <ReactPdf.Page
-                key={`page_${index + 1}`}
-                pageNumber={index + 1}
-                scale={2}
-              />
+              <Paper elevation={3} sx={{ mb: 15 }}>
+                <ReactPdf.Page
+                  key={`page_${index + 1}`}
+                  pageNumber={index + 1}
+                  scale={2}
+                />
+              </Paper>
             ))}
-          </Paper>
-        </ReactPdf.Document>
-      )}
-    </div>
+          </ReactPdf.Document>
+        )}
+      </div>
+    </>
   )
 }
 

@@ -1,4 +1,5 @@
 import React from "react"
+import WhiteHorizontalLogo from "../vectors/WhiteHorizontalLogo.jsx"
 
 // mui imports
 import { styled } from "@mui/material/styles"
@@ -53,9 +54,14 @@ const AppBar = ({ open, toggleDrawer }) => {
           variant="h6"
           color="inherit"
           noWrap
-          sx={{ flexGrow: 1 }}
+          sx={{
+            flexGrow: 1,
+            height: 60,
+            display: "inline-flex",
+            "align-items": "center",
+          }}
         >
-          ABC da escrita
+          <WhiteHorizontalLogo />
         </Typography>
       </Toolbar>
     </AppBarOpts>

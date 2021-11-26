@@ -12,7 +12,7 @@ export default function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://abcdaescrita.com.br/">
-        ABC da escrita
+        ABC da Escrita
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

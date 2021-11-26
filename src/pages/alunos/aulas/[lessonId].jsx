@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import * as styles from "../../../styles/lessonPage.module.css"
 import { LessonHeader, BottomNavigation } from "../../../components/"
+import "react-pdf/dist/umd/Page/AnnotationLayer.css"
 
 // materiau lui loader
 import CircularProgress from "@mui/material/CircularProgress"

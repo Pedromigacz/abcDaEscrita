@@ -21,6 +21,16 @@ const getLessonContent = props => {
   return params.get("lesson")
 }
 
+function removeTextLayerOffset() {
+  const textLayers = document.querySelectorAll(".react-pdf__Page__textContent")
+  textLayers.forEach(layer => {
+    const { style } = layer
+    style.top = "-0.5%"
+    style.left = "0"
+    style.transform = ""
+  })
+}
+
 let ReactPdf
 async function dynamicImportModule() {
   ReactPdf = await import("react-pdf")
@@ -62,10 +72,16 @@ const LessonPage = props => {
             onContextMenu={e => e.preventDefault()}
           >
             {Array.from(new Array(numPages), (el, index) => (
-              <Paper elevation={3} sx={{ mb: 15 }}>
+              <Paper
+                elevation={3}
+                sx={{ mb: 15 }}
+                id={`page${index + 1}`}
+                key={index}
+              >
                 <ReactPdf.Page
                   key={`page_${index + 1}`}
                   pageNumber={index + 1}
+                  onLoadSuccess={removeTextLayerOffset}
                   scale={2}
                 />
               </Paper>

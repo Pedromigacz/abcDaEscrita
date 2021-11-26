@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import * as styles from "../../../styles/lessonPage.module.css"
-import { LessonHeader } from "../../../components/"
+import { LessonHeader, BottomNavigation } from "../../../components/"
 
 // materiau lui loader
 import CircularProgress from "@mui/material/CircularProgress"
@@ -50,7 +50,7 @@ const LessonPage = props => {
   return (
     <>
       <LessonHeader />
-      <div className={styles.container}>
+      <div className={styles.container} id="topo">
         <CssBaseline />
         {loading ? (
           <CircularProgress />
@@ -73,6 +73,7 @@ const LessonPage = props => {
           </ReactPdf.Document>
         )}
       </div>
+      <BottomNavigation />
     </>
   )
 }

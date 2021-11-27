@@ -53,7 +53,7 @@ const LessonPage = props => {
       setLessonData(await getLesson(props.params.lessonId))
       setLoading(false)
     })()
-  }, [props])
+  }, [getLesson, props])
 
   return (
     <>

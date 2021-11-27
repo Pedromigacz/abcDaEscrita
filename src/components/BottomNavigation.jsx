@@ -3,7 +3,6 @@ import Box from "@mui/material/Box"
 import BottomNavigation from "@mui/material/BottomNavigation"
 import BottomNavigationAction from "@mui/material/BottomNavigationAction"
 import TurnSlightLeftIcon from "@mui/icons-material/TurnSlightLeft"
-import TurnSlightRightIcon from "@mui/icons-material/TurnSlightRight"
 import HomeIcon from "@mui/icons-material/Home"
 import { Link } from "gatsby"
 
@@ -19,21 +18,14 @@ export default function SimpleBottomNavigation() {
           setValue(newValue)
         }}
       >
+        <Link to="/alunos">
+          <BottomNavigationAction showLabel label="Home" icon={<HomeIcon />} />
+        </Link>
         <Link to="#topo">
           <BottomNavigationAction
             showLabel
             label="Topo da aula"
             icon={<TurnSlightLeftIcon />}
-          />
-        </Link>
-        <Link to="/alunos">
-          <BottomNavigationAction showLabel label="Home" icon={<HomeIcon />} />
-        </Link>
-        <Link to="/alunos">
-          <BottomNavigationAction
-            showLabel
-            label="Topo da página"
-            icon={<TurnSlightRightIcon />}
           />
         </Link>
       </BottomNavigation>

@@ -17,10 +17,7 @@ export const UserCoursesList = () => {
     <>
       <div>
         <ListSubheader inset>Menu</ListSubheader>
-        <Link
-          to="/alunos/home"
-          style={{ textDecoration: "none", color: "unset" }}
-        >
+        <Link to="/alunos" style={{ textDecoration: "none", color: "unset" }}>
           <ListItem button>
             <ListItemIcon>
               <HomeIcon />

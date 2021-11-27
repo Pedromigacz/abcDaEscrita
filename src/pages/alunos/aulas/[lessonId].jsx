@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
+import { FirebaseContext } from "../../../contexts/firebaseContext.js"
 import * as styles from "../../../styles/lessonPage.module.css"
 import { LessonHeader, BottomNavigation } from "../../../components/"
 import "react-pdf/dist/umd/Page/AnnotationLayer.css"
@@ -15,11 +16,6 @@ function CircularIndeterminate() {
       <CircularProgress />
     </Box>
   )
-}
-
-const getLessonContent = props => {
-  const params = new URLSearchParams(props.location.search)
-  return params.get("lesson")
 }
 
 function removeTextLayerOffset() {
@@ -43,20 +39,21 @@ async function dynamicImportModule() {
 
 const LessonPage = props => {
   const [loading, setLoading] = useState(true)
-  const [url, setUrl] = useState("")
+  const [lessonData, setLessonData] = useState({})
   const [numPages, setNumPages] = useState(null)
+  const { getLesson } = useContext(FirebaseContext)
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages)
   }
 
   useEffect(() => {
-    dynamicImportModule().then(() => {
+    ;(async () => {
+      await dynamicImportModule()
+      setLessonData(await getLesson(props.params.lessonId))
       setLoading(false)
-    })
-
-    setUrl(getLessonContent(props))
-  }, [setUrl, props])
+    })()
+  }, [props])
 
   return (
     <>
@@ -67,7 +64,7 @@ const LessonPage = props => {
           <CircularProgress />
         ) : (
           <ReactPdf.Document
-            file={{ url: url }}
+            file={{ url: lessonData.conteudo }}
             onLoadSuccess={onDocumentLoadSuccess}
             loading={CircularIndeterminate}
             onContextMenu={e => e.preventDefault()}

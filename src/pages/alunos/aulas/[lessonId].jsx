@@ -18,16 +18,6 @@ function CircularIndeterminate() {
   )
 }
 
-function removeTextLayerOffset() {
-  const textLayers = document.querySelectorAll(".react-pdf__Page__textContent")
-  textLayers.forEach(layer => {
-    const { style } = layer
-    style.top = "-0.5%"
-    style.left = "0"
-    style.transform = ""
-  })
-}
-
 let ReactPdf
 async function dynamicImportModule() {
   ReactPdf = await import("react-pdf")
@@ -55,6 +45,18 @@ const LessonPage = props => {
     })()
   }, [getLesson, props])
 
+  function removeTextLayerOffset() {
+    const textLayers = document.querySelectorAll(
+      ".react-pdf__Page__textContent"
+    )
+    textLayers.forEach(layer => {
+      const { style } = layer
+      style.top = "-0.5%"
+      style.left = "0"
+      style.transform = ""
+    })
+  }
+
   return (
     <>
       <LessonHeader />
@@ -68,6 +70,15 @@ const LessonPage = props => {
             onLoadSuccess={onDocumentLoadSuccess}
             loading={CircularIndeterminate}
             onContextMenu={e => e.preventDefault()}
+            onItemClick={({ pageNumber }) => {
+              document
+                .querySelector(`[data-page-number="${pageNumber}"`)
+                .scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                  inline: "center",
+                })
+            }}
           >
             {Array.from(new Array(numPages), (el, index) => (
               <Paper

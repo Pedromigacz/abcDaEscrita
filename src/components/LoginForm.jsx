@@ -72,7 +72,6 @@ const LoginForm = () => {
                 onChange={e => {
                   setForm({ ...form, email: e.target.value })
                 }}
-                autoFocus
               />
               <TextField
                 margin="normal"

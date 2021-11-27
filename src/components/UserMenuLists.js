@@ -35,20 +35,15 @@ export const UserCoursesList = () => {
 }
 
 export const UserProfileList = () => {
-  const { sair } = useContext(FirebaseContext)
+  const { sair, resetSelfPassword } = useContext(FirebaseContext)
   return (
     <div>
-      <Link
-        to="/alunos/changePassword"
-        style={{ textDecoration: "none", color: "unset" }}
-      >
-        <ListItem button>
-          <ListItemIcon>
-            <PasswordIcon />
-          </ListItemIcon>
-          <ListItemText primary="Trocar senha" />
-        </ListItem>
-      </Link>
+      <ListItem button onClick={resetSelfPassword}>
+        <ListItemIcon>
+          <PasswordIcon />
+        </ListItemIcon>
+        <ListItemText primary="Trocar senha" />
+      </ListItem>
       <Link
         to="/alunos/changeEmail"
         style={{ textDecoration: "none", color: "unset" }}

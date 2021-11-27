@@ -196,6 +196,23 @@ const FirebaseContextProvider = props => {
         })
       )
 
+  const resetSelfPassword = () => {
+    const email = auth.currentUser.email
+    return auth
+      .sendPasswordResetEmail(email)
+      .then(res => {
+        enqueueSnackbar(`Email de redefinição de senha enviado com sucesso`, {
+          variant: "success",
+        })
+        return res
+      })
+      .catch(err =>
+        enqueueSnackbar(authCodeToMessage(err.code), {
+          variant: "error",
+        })
+      )
+  }
+
   const addCourse = title => {
     if (!title || title.length <= 0) {
       return enqueueSnackbar("Curso não pode ser criado sem um título", {
@@ -463,6 +480,7 @@ const FirebaseContextProvider = props => {
         deleteLesson,
         getLesson,
         getUserClasses,
+        resetSelfPassword,
       }}
     >
       {props.children}

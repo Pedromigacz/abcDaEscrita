@@ -213,6 +213,36 @@ const FirebaseContextProvider = props => {
       )
   }
 
+  const changeEmail = async ({ email, password, newEmail }) => {
+    try {
+      // update user
+      await auth
+        .signInWithEmailAndPassword(email, password)
+        .then(function (userCredential) {
+          userCredential.user.updateEmail(newEmail)
+        })
+
+      // update user doc
+      const res = await db
+        .collection("users")
+        .where("userRef", "==", auth.currentUser.uid)
+        .limit(1)
+        .get()
+
+      await res.docs[0].ref.update({ email: newEmail })
+
+      enqueueSnackbar("Email atualizado com sucesso", {
+        variant: "success",
+      })
+      return
+    } catch (err) {
+      console.log(err)
+      enqueueSnackbar(authCodeToMessage(err.code), {
+        variant: "error",
+      })
+    }
+  }
+
   const addCourse = title => {
     if (!title || title.length <= 0) {
       return enqueueSnackbar("Curso não pode ser criado sem um título", {
@@ -481,6 +511,7 @@ const FirebaseContextProvider = props => {
         getLesson,
         getUserClasses,
         resetSelfPassword,
+        changeEmail,
       }}
     >
       {props.children}

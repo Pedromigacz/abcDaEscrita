@@ -64,9 +64,7 @@ const UserCourseList = () => {
                                 width: "100%",
                                 "text-decoration": "none",
                               }}
-                              to={`/alunos/aulas/${
-                                lesson.id
-                              }?lesson=${encodeURIComponent(lesson.conteudo)}`}
+                              to={`/alunos/aulas/${lesson.id}`}
                             >
                               <ListItemButton
                                 style={{

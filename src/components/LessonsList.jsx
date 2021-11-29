@@ -96,7 +96,8 @@ const LessonsList = () => {
             id: lesson.id,
             titulo: lesson.titulo || "Sem informação",
             data:
-              (lesson.data && new Date(lesson.data.seconds).toLocaleString()) ||
+              (lesson.data &&
+                new Date(lesson.data.seconds * 1000).toLocaleString()) ||
               "Sem informação",
             curso: lesson.curso.split("/")[2],
             conteudo: lesson.conteudo || "Sem informação",

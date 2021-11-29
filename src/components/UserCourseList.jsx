@@ -55,41 +55,45 @@ const UserCourseList = () => {
                     {course.titulo}
                   </Typography>
                   {course.lessons
-                    ? course.lessons.map(lesson => (
-                        <span key={lesson.id}>
-                          <ListItem>
-                            <Link
-                              style={{
-                                display: "inline-block",
-                                width: "100%",
-                                "text-decoration": "none",
-                              }}
-                              to={`/alunos/aulas/${lesson.id}`}
-                            >
-                              <ListItemButton
+                    ? course.lessons
+                        .sort(
+                          (prev, next) => prev.data.seconds - next.data.seconds
+                        )
+                        .map(lesson => (
+                          <span key={lesson.id}>
+                            <ListItem>
+                              <Link
                                 style={{
-                                  cursor: "pointer",
+                                  display: "inline-block",
+                                  width: "100%",
                                   "text-decoration": "none",
-                                  color: "rgba(0, 0, 0, 0.87)",
                                 }}
+                                to={`/alunos/aulas/${lesson.id}`}
                               >
-                                <ListItemAvatar>
-                                  <Avatar>
-                                    <VisibilityIcon />
-                                  </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                  primary={lesson.titulo}
-                                  secondary={dataAtualFormatada(
-                                    lesson.data.seconds * 1000
-                                  )}
-                                />
-                              </ListItemButton>
-                            </Link>
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                        </span>
-                      ))
+                                <ListItemButton
+                                  style={{
+                                    cursor: "pointer",
+                                    "text-decoration": "none",
+                                    color: "rgba(0, 0, 0, 0.87)",
+                                  }}
+                                >
+                                  <ListItemAvatar>
+                                    <Avatar>
+                                      <VisibilityIcon />
+                                    </Avatar>
+                                  </ListItemAvatar>
+                                  <ListItemText
+                                    primary={lesson.titulo}
+                                    secondary={dataAtualFormatada(
+                                      lesson.data.seconds * 1000
+                                    )}
+                                  />
+                                </ListItemButton>
+                              </Link>
+                            </ListItem>
+                            <Divider variant="inset" component="li" />
+                          </span>
+                        ))
                     : "Parece que este curso ainda não possui nenhuma aula adicionada a ele"}
                 </List>
               </span>

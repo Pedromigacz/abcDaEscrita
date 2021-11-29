@@ -12,8 +12,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility"
 import Typography from "@mui/material/Typography"
 import { Link } from "gatsby"
 
-function dataAtualFormatada() {
-  var data = new Date(),
+function dataAtualFormatada(input) {
+  var data = new Date(input),
     dia = data.getDate().toString(),
     diaF = dia.length === 1 ? "0" + dia : dia,
     mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
@@ -81,7 +81,7 @@ const UserCourseList = () => {
                                 <ListItemText
                                   primary={lesson.titulo}
                                   secondary={dataAtualFormatada(
-                                    new Date(lesson.data.seconds)
+                                    lesson.data.seconds * 1000
                                   )}
                                 />
                               </ListItemButton>

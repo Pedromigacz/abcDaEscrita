@@ -98,7 +98,7 @@ const LessonsList = () => {
             data:
               (lesson.data && new Date(lesson.data.seconds).toLocaleString()) ||
               "Sem informação",
-            curso: lesson.curso,
+            curso: lesson.curso.split("/")[2],
             conteudo: lesson.conteudo || "Sem informação",
             editar: lesson,
             remover: { titulo: lesson.titulo, id: lesson.id },

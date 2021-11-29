@@ -73,11 +73,7 @@ const LessonPage = props => {
             onItemClick={({ pageNumber }) => {
               document
                 .querySelector(`[data-page-number="${pageNumber}"`)
-                .scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
-                  inline: "center",
-                })
+                .scrollIntoView(true)
             }}
           >
             {Array.from(new Array(numPages), (el, index) => (

@@ -15,11 +15,37 @@ import MobileDatePicker from "@mui/lab/MobileDatePicker"
 import Grid from "@mui/material/Grid"
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
 
+import NumberFormat from "react-number-format"
+
+const NumberFormatCustom = React.forwardRef(function NumberFormatCustom(
+  props,
+  ref
+) {
+  const { onChange, ...other } = props
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={ref}
+      onValueChange={values => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        })
+      }}
+      isNumericString
+    />
+  )
+})
+
 const EditLesson = ({ lessonId }) => {
   const [form, setForm] = useState({
     titulo: "",
     date: new Date(),
     conteudo: "/",
+    index: "0",
   })
   const { getLesson, updateLesson } = useContext(FirebaseContext)
   const [loading, setLoading] = useState(true)
@@ -42,6 +68,7 @@ const EditLesson = ({ lessonId }) => {
         titulo: data.titulo,
         date: new Date(data.data.toDate()),
         conteudo: data.conteudo,
+        index: data.index,
       }))
       setLoading(false)
     })
@@ -80,6 +107,23 @@ const EditLesson = ({ lessonId }) => {
                     setForm(prev => ({ ...prev, titulo: e.target.value }))
                   }
                   value={form.titulo}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  label="Número indexador"
+                  value={form.index}
+                  onChange={e =>
+                    setForm(prev => ({ ...prev, index: e.target.value }))
+                  }
+                  name="index"
+                  id="index"
+                  InputProps={{
+                    inputComponent: NumberFormatCustom,
+                  }}
+                  variant="outlined"
                 />
               </Grid>
               <Grid item xs={12}>

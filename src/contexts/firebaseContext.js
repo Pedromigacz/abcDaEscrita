@@ -326,6 +326,7 @@ const FirebaseContextProvider = props => {
       const newLesson = {}
       if (form.titulo) newLesson.titulo = form.titulo
       if (form.date) newLesson.data = form.date
+      if (form.index) newLesson.index = form.index
 
       await snapshot.ref.update(newLesson)
 

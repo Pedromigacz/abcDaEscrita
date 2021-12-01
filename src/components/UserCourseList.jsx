@@ -56,7 +56,10 @@ const UserCourseList = () => {
                   </Typography>
                   {course.lessons
                     ? course.lessons
-                        .sort((prev, next) => next.index - prev.index)
+                        .sort(
+                          (prev, next) =>
+                            Number(prev.index) - Number(next.index)
+                        )
                         .map(lesson => (
                           <span key={lesson.id}>
                             <ListItem>

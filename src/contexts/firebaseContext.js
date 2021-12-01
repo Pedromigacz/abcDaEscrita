@@ -301,6 +301,7 @@ const FirebaseContextProvider = props => {
 
       const newLesson = await db.collection("/aulas").add({
         titulo: form.titulo,
+        index: form.index,
         data: form.date,
         curso: `/cursos/${courseId}`,
         conteudo: fileUrl,

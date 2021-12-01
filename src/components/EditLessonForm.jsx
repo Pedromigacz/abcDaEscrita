@@ -87,7 +87,7 @@ const EditLesson = ({ lessonId }) => {
           }}
         >
           <Typography component="h1" variant="h5">
-            Formulario de edição de aula
+            Formulário de edição de aula
           </Typography>
           <Box
             component="form"

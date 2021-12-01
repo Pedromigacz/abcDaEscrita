@@ -442,7 +442,7 @@ const FirebaseContextProvider = props => {
       }
 
       await aula.ref.delete()
-      enqueueSnackbar(`Aula apagado com sucesso`, {
+      enqueueSnackbar(`Aula apagada com sucesso`, {
         variant: "success",
       })
       return

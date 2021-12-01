@@ -15,12 +15,37 @@ import Button from "@mui/material/Button"
 import MobileDatePicker from "@mui/lab/MobileDatePicker"
 import Grid from "@mui/material/Grid"
 
+import NumberFormat from "react-number-format"
+
 const Input = styled("input")({
   display: "none",
 })
 
+const NumberFormatCustom = React.forwardRef(function NumberFormatCustom(
+  props,
+  ref
+) {
+  const { onChange, ...other } = props
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={ref}
+      onValueChange={values => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        })
+      }}
+      isNumericString
+    />
+  )
+})
+
 const AddLesson = ({ titulo, courseId }) => {
-  const [form, setForm] = useState({ titulo: "", date: new Date() })
+  const [form, setForm] = useState({ titulo: "", date: new Date(), index: 0 })
   const [file, setFile] = useState()
   const { addLesson } = useContext(FirebaseContext)
   const [loading, setLoading] = useState(false)
@@ -32,7 +57,7 @@ const AddLesson = ({ titulo, courseId }) => {
     setLoading(true)
 
     await addLesson(form, file, courseId)
-    setForm({ titulo: "", date: new Date() })
+    setForm({ titulo: "", date: new Date(), index: 0 })
     setFile(null)
     setLoading(false)
   }
@@ -73,6 +98,23 @@ const AddLesson = ({ titulo, courseId }) => {
                     setForm(prev => ({ ...prev, titulo: e.target.value }))
                   }
                   value={form.titulo}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  label="Número indexador"
+                  value={form.index}
+                  onChange={e =>
+                    setForm(prev => ({ ...prev, index: e.target.value }))
+                  }
+                  name="index"
+                  id="index"
+                  InputProps={{
+                    inputComponent: NumberFormatCustom,
+                  }}
+                  variant="outlined"
                 />
               </Grid>
               <Grid item xs={12}>

@@ -266,6 +266,12 @@ const FirebaseContextProvider = props => {
   }
 
   const addLesson = async (form, file, courseId) => {
+    if (form.titulo >= 0) {
+      enqueueSnackbar("Não é permitida a criação de uma aula sem título", {
+        variant: "error",
+      })
+      return
+    }
     if (!file) {
       enqueueSnackbar("É necessário ter um arquivo para criar uma aula", {
         variant: "error",

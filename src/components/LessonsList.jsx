@@ -93,7 +93,7 @@ const LessonsList = () => {
       setRows(prev => {
         return lessons.map(lesson => {
           return {
-            id: lesson.id,
+            id: lesson.data.seconds + lesson.id,
             titulo: lesson.titulo || "Sem informação",
             data:
               (lesson.data &&

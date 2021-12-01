@@ -32,6 +32,8 @@ const AddLesson = ({ titulo, courseId }) => {
     setLoading(true)
 
     await addLesson(form, file, courseId)
+    setForm({ titulo: "", date: new Date() })
+    setFile(null)
     setLoading(false)
   }
 

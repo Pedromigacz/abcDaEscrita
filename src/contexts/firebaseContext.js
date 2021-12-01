@@ -290,7 +290,6 @@ const FirebaseContextProvider = props => {
         variant: "success",
       })
 
-      navigate("/admin/getLessons")
       return newLesson
     } catch (err) {
       console.log(err)

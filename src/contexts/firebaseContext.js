@@ -264,7 +264,8 @@ const FirebaseContextProvider = props => {
 
     return db
       .collection("/cursos")
-      .add({ titulo: title })
+      .doc(title)
+      .set({ titulo: title })
       .then(res => {
         enqueueSnackbar(`Curso criado com sucesso`, {
           variant: "success",

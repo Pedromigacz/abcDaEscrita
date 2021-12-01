@@ -243,12 +243,25 @@ const FirebaseContextProvider = props => {
     }
   }
 
-  const addCourse = title => {
+  const addCourse = async title => {
     if (!title || title.length <= 0) {
       return enqueueSnackbar("Curso não pode ser criado sem um título", {
         variant: "error",
       })
     }
+
+    // if course already exists
+    const verificationVariable = await db
+      .collection("/cursos")
+      .where("titulo", "==", title)
+      .get()
+
+    if (verificationVariable.docs.length >= 1) {
+      return enqueueSnackbar("Este curso já existe", {
+        variant: "error",
+      })
+    }
+
     return db
       .collection("/cursos")
       .add({ titulo: title })

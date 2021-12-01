@@ -14,13 +14,13 @@ import { useSnackbar } from "notistack"
 import { authCodeToMessage } from "../components/utils"
 
 const config = {
-  apiKey: "AIzaSyA29yoBOYspTnEHo9jzedtBevO6yPI1Q1E",
-  authDomain: "projetoteste-7a401.firebaseapp.com",
-  projectId: "projetoteste-7a401",
-  storageBucket: "projetoteste-7a401.appspot.com",
-  messagingSenderId: "1062854484452",
-  appId: "1:1062854484452:web:88231160337796232967f1",
-  measurementId: "G-CGB1DYX5JL",
+  apiKey: process.env.API_KEY || "AIzaSyA29yoBOYspTnEHo9jzedtBevO6yPI1Q1E",
+  authDomain: process.env.AUTH_DOMAIN || "projetoteste-7a401.firebaseapp.com",
+  projectId: process.env.PROJECT_ID || "projetoteste-7a401",
+  storageBucket: process.env.STORAGE_BUCKET || "projetoteste-7a401.appspot.com",
+  messagingSenderId: process.env.MESSAGING_SENDER_ID || "1062854484452",
+  appId: process.env.APP_ID || "1:1062854484452:web:88231160337796232967f1",
+  measurementId: process.env.MEASUREMENTE_ID || "G-CGB1DYX5JL",
 }
 
 firebase.initializeApp(config)

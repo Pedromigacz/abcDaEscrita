@@ -14,13 +14,17 @@ import { useSnackbar } from "notistack"
 import { authCodeToMessage } from "../components/utils"
 
 const config = {
-  apiKey: process.env.API_KEY || "AIzaSyA29yoBOYspTnEHo9jzedtBevO6yPI1Q1E",
-  authDomain: process.env.AUTH_DOMAIN || "projetoteste-7a401.firebaseapp.com",
-  projectId: process.env.PROJECT_ID || "projetoteste-7a401",
-  storageBucket: process.env.STORAGE_BUCKET || "projetoteste-7a401.appspot.com",
-  messagingSenderId: process.env.MESSAGING_SENDER_ID || "1062854484452",
-  appId: process.env.APP_ID || "1:1062854484452:web:88231160337796232967f1",
-  measurementId: process.env.MEASUREMENTE_ID || "G-CGB1DYX5JL",
+  apiKey:
+    process.env.GATSBY_API_KEY || "AIzaSyA29yoBOYspTnEHo9jzedtBevO6yPI1Q1E",
+  authDomain:
+    process.env.GATSBY_AUTH_DOMAIN || "projetoteste-7a401.firebaseapp.com",
+  projectId: process.env.GATSBY_PROJECT_ID || "projetoteste-7a401",
+  storageBucket:
+    process.env.GATSBY_STORAGE_BUCKET || "projetoteste-7a401.appspot.com",
+  messagingSenderId: process.env.GATSBY_MESSAGING_SENDER_ID || "1062854484452",
+  appId:
+    process.env.GATSBY_APP_ID || "1:1062854484452:web:88231160337796232967f1",
+  measurementId: process.env.GATSBY_MEASUREMENTE_ID || "G-CGB1DYX5JL",
 }
 
 firebase.initializeApp(config)

@@ -56,7 +56,11 @@ const FirebaseContextProvider = props => {
       .signInWithEmailAndPassword(email, password)
       .then(obj => {
         enqueueSnackbar("Login realizado com sucesso", { variant: "success" })
-        if (obj.user && obj.user.email === "admin@admin.com") {
+        if (
+          obj.user &&
+          (obj.user.email === "admin@admin.com" ||
+            obj.user.email === "adnelsoncampos@gmail.com")
+        ) {
           navigate("/admin")
         } else if (obj.user) {
           navigate("/alunos")
@@ -134,8 +138,8 @@ const FirebaseContextProvider = props => {
         })
       })
 
-  const deleteUser = id =>
-    db
+  const deleteUser = async id => {
+    await db
       .collection("users")
       .doc(id)
       .delete()
@@ -150,6 +154,8 @@ const FirebaseContextProvider = props => {
           variant: "error",
         })
       )
+    return
+  }
 
   const getCourses = () =>
     db
